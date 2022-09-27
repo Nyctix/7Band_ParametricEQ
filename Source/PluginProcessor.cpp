@@ -101,6 +101,10 @@ void _7Band_ParametricEQAudioProcessor::prepareToPlay (double sampleRate, int sa
 
     leftChain.prepare(spec);
     rightChain.prepare(spec);
+
+
+
+
 }
 
 void _7Band_ParametricEQAudioProcessor::releaseResources()
@@ -160,6 +164,7 @@ void _7Band_ParametricEQAudioProcessor::processBlock (juce::AudioBuffer<float>& 
 
     leftChain.process(leftContext);
     rightChain.process(rightContext);
+
 }
 
 //==============================================================================
@@ -189,20 +194,52 @@ void _7Band_ParametricEQAudioProcessor::setStateInformation (const void* data, i
 }
 
 //==============================================================================
+//Chain Settings
+ChainSettings getChainSettings(juce::AudioProcessorValueTreeState& ParaEQ)
+{
+    ChainSettings settings;
+
+    settings.lowCutFrequency = ParaEQ.getRawParameterValue("LowCut Frequency")->load();
+    settings.lowCutSlope = ParaEQ.getRawParameterValue("LowCut Slope")->load();
+
+    settings.highCutFrequency = ParaEQ.getRawParameterValue("HighCut Frequency")->load();
+    settings.highCutSlope = ParaEQ.getRawParameterValue("HighCut Slope")->load();
+
+    settings.highShelfFrequency = ParaEQ.getRawParameterValue("HighShelf Frequency")->load();
+    settings.highShelfQuality = ParaEQ.getRawParameterValue("HighShelf Quality")->load();
+    settings.highShelfGainInDecibels = ParaEQ.getRawParameterValue("HighShelf Gain")->load();
+
+    settings.lowShelfFrequency = ParaEQ.getRawParameterValue("LowShelf Frequency")->load();
+    settings.lowShelfQuality = ParaEQ.getRawParameterValue("LowShelf Quality")->load();
+    settings.lowShelfGainInDecibels = ParaEQ.getRawParameterValue("LowShelf Gain")->load();
+
+    settings.highMidFrequency = ParaEQ.getRawParameterValue("HighMid Frequency")->load();
+    settings.highMidQuality = ParaEQ.getRawParameterValue("HighMid Quality")->load();
+    settings.highMidGainInDecibels = ParaEQ.getRawParameterValue("HighMid Gain")->load();
+
+    settings.lowMidFrequency = ParaEQ.getRawParameterValue("LowMid Frequency")->load();
+    settings.lowMidQuality = ParaEQ.getRawParameterValue("LowMid Quality")->load();
+    settings.lowMidGainInDecibels = ParaEQ.getRawParameterValue("LowMid Gain")->load();
+
+    return settings;
+}
+
+//==============================================================================
 //Parameter Layout
 juce::AudioProcessorValueTreeState::ParameterLayout _7Band_ParametricEQAudioProcessor::createParameterLayout()
 {
     juce::AudioProcessorValueTreeState::ParameterLayout parameter;
 
     //Gain Parameters ----------------------------------------------------------
-    parameter.add(std::make_unique<juce::AudioParameterFloat>("Input Gain",
-                                                                "Input Gain",
-                                                                juce::NormalisableRange<float>(-15.0f, 15.0f, 1.0f, 1.0f),
-                                                                0.0f));
-    parameter.add(std::make_unique<juce::AudioParameterFloat>("Output Gain",
-                                                                "Output Gain",
-                                                                juce::NormalisableRange<float>(-15.0f, 15.0f, 1.0f, 1.0f),
-                                                                0.0f));
+    //parameter.add(std::make_unique<juce::AudioParameterFloat>("Input Gain",
+    //                                                            "Input Gain",
+    //                                                            juce::NormalisableRange<float>(-15.0f, 15.0f, 1.0f, 1.0f),
+    //                                                            0.0f));
+    //parameter.add(std::make_unique<juce::AudioParameterFloat>("Output Gain",
+    //                                                            "Output Gain",
+    //                                                            juce::NormalisableRange<float>(-15.0f, 15.0f, 1.0f, 1.0f),
+    //                                                            0.0f)
+ 
     //HighCut & LowCut Slope Values --------------------------------------------------------------------------------------
     juce::StringArray slopeArray;
     for (int i = 0; i < 5; ++i)
@@ -212,18 +249,19 @@ juce::AudioProcessorValueTreeState::ParameterLayout _7Band_ParametricEQAudioProc
         strSlope << "db/Oct";
         slopeArray.add(strSlope);
     }
+
     //LowCut Filter ----------------------------------------------------------------------------------------
     parameter.add(std::make_unique<juce::AudioParameterFloat>("LowCut Frequency",
                                                                 "LowCut Frequency",
-                                                                juce::NormalisableRange<float>(16.0f, 350.0f, 1.0f, 1.0f),
-                                                                16.0f));
+                                                                juce::NormalisableRange<float>(15.0f, 350.0f, 1.0f, 1.0f),
+                                                                15.0f));
     parameter.add(std::make_unique<juce::AudioParameterChoice>("LowCut Slope",
                                                                 "LowCut Slope",
                                                                 slopeArray,
                                                                 0));
     //HighCut Filter ---------------------------------------------------------------------------------------
     parameter.add(std::make_unique<juce::AudioParameterFloat>("HighCut Frequency",
-                                                                "HighCut Frequency",
+                                                               "HighCut Frequency",
                                                                 juce::NormalisableRange<float>(3000.0f, 22000.0f, 100.0f, 1.0f),
                                                                 22000.0f));
     parameter.add(std::make_unique<juce::AudioParameterChoice>("HighCut Slope",

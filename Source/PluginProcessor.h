@@ -10,6 +10,21 @@
 
 #include <JuceHeader.h>
 
+struct ChainSettings
+{
+    float lowCutFrequency{ 0 }, highCutFrequency{ 0 };
+    float highShelfFrequency{ 0 }, highShelfGainInDecibels{ 0 }, highShelfQuality{ 1.f };
+    float highMidFrequency{ 0 }, highMidGainInDecibels{ 0 }, highMidQuality{ 1.f };
+    float lowMidFrequency{ 0 }, lowMidGainInDecibels{ 0 }, lowMidQuality{ 1.f };
+    float lowShelfFrequency{ 0 }, lowShelfGainInDecibels{ 0 }, lowShelfQuality{ 1.f };
+
+    int lowCutSlope{ 0 }, highCutSlope{ 0 };
+
+    //Slope lowCutSlope{ Slope::Slope_12 }, highCutSlope{ Slope::Slope_12 };
+};
+
+ChainSettings getChainSettings(juce::AudioProcessorValueTreeState& ParaEQ);
+
 //==============================================================================
 /**
 */

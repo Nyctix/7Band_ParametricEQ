@@ -114,11 +114,27 @@ void _7Band_ParametricEQAudioProcessor::prepareToPlay (double sampleRate, int sa
                                                                                     chainSettings.lowShelfQuality,
                                                                                     juce::Decibels::decibelsToGain(chainSettings.lowShelfGainInDecibels));
 
+    auto HighMidCoefficients = juce::dsp::IIR::Coefficients<float>::makePeakFilter(sampleRate,
+                                                                                    chainSettings.highMidFrequency,
+                                                                                    chainSettings.highMidQuality,
+                                                                                    juce::Decibels::decibelsToGain(chainSettings.highMidGainInDecibels));
+
+    auto LowMidCoefficients = juce::dsp::IIR::Coefficients<float>::makePeakFilter(sampleRate,
+                                                                                    chainSettings.lowMidFrequency,
+                                                                                    chainSettings.lowMidQuality,
+                                                                                    juce::Decibels::decibelsToGain(chainSettings.lowMidGainInDecibels));
+
     *leftChain.get<ChainPositions::HighShelf>().coefficients = *HighShelfCoefficients;
     *rightChain.get<ChainPositions::HighShelf>().coefficients = *HighShelfCoefficients;
 
     *leftChain.get<ChainPositions::LowShelf>().coefficients = *LowShelfCoefficients;
     *rightChain.get<ChainPositions::LowShelf>().coefficients = *LowShelfCoefficients;
+
+    *leftChain.get<ChainPositions::HighMid>().coefficients = *HighMidCoefficients;
+    *rightChain.get<ChainPositions::HighMid>().coefficients = *HighMidCoefficients;
+
+    *leftChain.get<ChainPositions::LowMid>().coefficients = *LowMidCoefficients;
+    *rightChain.get<ChainPositions::LowMid>().coefficients = *LowMidCoefficients;
 }
 
 void _7Band_ParametricEQAudioProcessor::releaseResources()
@@ -180,11 +196,27 @@ void _7Band_ParametricEQAudioProcessor::processBlock (juce::AudioBuffer<float>& 
                                                                                     chainSettings.lowShelfQuality,
                                                                                     juce::Decibels::decibelsToGain(chainSettings.lowShelfGainInDecibels));
 
+    auto HighMidCoefficients = juce::dsp::IIR::Coefficients<float>::makePeakFilter(getSampleRate(),
+                                                                                    chainSettings.highMidFrequency,
+                                                                                    chainSettings.highMidQuality,
+                                                                                    juce::Decibels::decibelsToGain(chainSettings.highMidGainInDecibels));
+
+    auto LowMidCoefficients = juce::dsp::IIR::Coefficients<float>::makePeakFilter(getSampleRate(),
+                                                                                    chainSettings.lowMidFrequency,
+                                                                                    chainSettings.lowMidQuality,
+                                                                                    juce::Decibels::decibelsToGain(chainSettings.lowMidGainInDecibels));
+
     *leftChain.get<ChainPositions::HighShelf>().coefficients = *HighShelfCoefficients;
     *rightChain.get<ChainPositions::HighShelf>().coefficients = *HighShelfCoefficients;
 
     *leftChain.get<ChainPositions::LowShelf>().coefficients = *LowShelfCoefficients;
     *rightChain.get<ChainPositions::LowShelf>().coefficients = *LowShelfCoefficients;
+
+    *leftChain.get<ChainPositions::HighMid>().coefficients = *HighMidCoefficients;
+    *rightChain.get<ChainPositions::HighMid>().coefficients = *HighMidCoefficients;
+
+    *leftChain.get<ChainPositions::LowMid>().coefficients = *LowMidCoefficients;
+    *rightChain.get<ChainPositions::LowMid>().coefficients = *LowMidCoefficients;
 
     juce::dsp::AudioBlock<float> block(buffer);
 

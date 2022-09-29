@@ -98,6 +98,14 @@ private:
         LowCut
     };
 
+    void updateHighShelfFilter(const ChainSettings& chainSettings);
+    void updateHighMidFilter(const ChainSettings& chainSettings);
+    void updateLowMidFilter(const ChainSettings& chainSettings);
+    void updateLowShelfFilter(const ChainSettings& chainSettings);
+
+    using Coefficients = Filter::CoefficientsPtr;
+    static void updateCoefficients(Coefficients& old, const Coefficients& replacements);
+
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (_7Band_ParametricEQAudioProcessor)
 };

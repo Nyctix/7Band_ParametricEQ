@@ -82,6 +82,16 @@ private:
 
     MonoChain leftChain, rightChain;
 
+    enum ChainPositions
+    {
+        HighCut,
+        HighShelf,
+        HighMid,        
+        LowMid,
+        LowShelf,
+        LowCut
+    };
+
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (_7Band_ParametricEQAudioProcessor)
 };

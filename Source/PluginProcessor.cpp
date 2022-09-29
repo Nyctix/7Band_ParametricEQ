@@ -102,9 +102,15 @@ void _7Band_ParametricEQAudioProcessor::prepareToPlay (double sampleRate, int sa
     leftChain.prepare(spec);
     rightChain.prepare(spec);
 
+    auto chainSettings = getChainSettings(ParaEQ);
 
+    auto HighShelfCoefficients = juce::dsp::IIR::Coefficients<float>::makeHighShelf(sampleRate,
+                                                                                    chainSettings.highShelfFrequency,
+                                                                                    chainSettings.highShelfQuality,
+                                                                                    juce::Decibels::decibelsToGain(chainSettings.highShelfGainInDecibels));
 
-
+    *leftChain.get<ChainPositions::HighShelf>().coefficients = *HighShelfCoefficients;
+    *rightChain.get<ChainPositions::HighShelf>().coefficients = *HighShelfCoefficients;
 }
 
 void _7Band_ParametricEQAudioProcessor::releaseResources()
@@ -153,6 +159,17 @@ void _7Band_ParametricEQAudioProcessor::processBlock (juce::AudioBuffer<float>& 
     // this code if your algorithm always overwrites all the output channels.
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
+
+    auto chainSettings = getChainSettings(ParaEQ);
+
+    auto HighShelfCoefficients = juce::dsp::IIR::Coefficients<float>::makeHighShelf(getSampleRate(),
+        chainSettings.highShelfFrequency,
+        chainSettings.highShelfQuality,
+        juce::Decibels::decibelsToGain(chainSettings.highShelfGainInDecibels));
+
+    *leftChain.get<ChainPositions::HighShelf>().coefficients = *HighShelfCoefficients;
+    *rightChain.get<ChainPositions::HighShelf>().coefficients = *HighShelfCoefficients;
+
 
     juce::dsp::AudioBlock<float> block(buffer);
 

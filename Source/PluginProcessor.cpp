@@ -109,8 +109,16 @@ void _7Band_ParametricEQAudioProcessor::prepareToPlay (double sampleRate, int sa
                                                                                     chainSettings.highShelfQuality,
                                                                                     juce::Decibels::decibelsToGain(chainSettings.highShelfGainInDecibels));
 
+    auto LowShelfCoefficients = juce::dsp::IIR::Coefficients<float>::makeLowShelf(sampleRate,
+                                                                                    chainSettings.lowShelfFrequency,
+                                                                                    chainSettings.lowShelfQuality,
+                                                                                    juce::Decibels::decibelsToGain(chainSettings.lowShelfGainInDecibels));
+
     *leftChain.get<ChainPositions::HighShelf>().coefficients = *HighShelfCoefficients;
     *rightChain.get<ChainPositions::HighShelf>().coefficients = *HighShelfCoefficients;
+
+    *leftChain.get<ChainPositions::LowShelf>().coefficients = *LowShelfCoefficients;
+    *rightChain.get<ChainPositions::LowShelf>().coefficients = *LowShelfCoefficients;
 }
 
 void _7Band_ParametricEQAudioProcessor::releaseResources()
@@ -163,13 +171,20 @@ void _7Band_ParametricEQAudioProcessor::processBlock (juce::AudioBuffer<float>& 
     auto chainSettings = getChainSettings(ParaEQ);
 
     auto HighShelfCoefficients = juce::dsp::IIR::Coefficients<float>::makeHighShelf(getSampleRate(),
-        chainSettings.highShelfFrequency,
-        chainSettings.highShelfQuality,
-        juce::Decibels::decibelsToGain(chainSettings.highShelfGainInDecibels));
+                                                                                    chainSettings.highShelfFrequency,
+                                                                                    chainSettings.highShelfQuality,
+                                                                                    juce::Decibels::decibelsToGain(chainSettings.highShelfGainInDecibels));
+
+    auto LowShelfCoefficients = juce::dsp::IIR::Coefficients<float>::makeLowShelf(getSampleRate(),
+                                                                                    chainSettings.lowShelfFrequency,
+                                                                                    chainSettings.lowShelfQuality,
+                                                                                    juce::Decibels::decibelsToGain(chainSettings.lowShelfGainInDecibels));
 
     *leftChain.get<ChainPositions::HighShelf>().coefficients = *HighShelfCoefficients;
     *rightChain.get<ChainPositions::HighShelf>().coefficients = *HighShelfCoefficients;
 
+    *leftChain.get<ChainPositions::LowShelf>().coefficients = *LowShelfCoefficients;
+    *rightChain.get<ChainPositions::LowShelf>().coefficients = *LowShelfCoefficients;
 
     juce::dsp::AudioBlock<float> block(buffer);
 

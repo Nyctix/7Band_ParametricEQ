@@ -214,18 +214,20 @@ ChainSettings getChainSettings(juce::AudioProcessorValueTreeState& ParaEQ)
     ChainSettings settings;
 
     settings.lowCutFrequency = ParaEQ.getRawParameterValue("LowCut Frequency")->load();
-    settings.LowCutSlope = static_cast<Slope>(ParaEQ.getRawParameterValue("LowCut Slope")->load());
+    settings.lowCutSlope = static_cast<Slope>(ParaEQ.getRawParameterValue("LowCut Slope")->load());
 
     settings.highCutFrequency = ParaEQ.getRawParameterValue("HighCut Frequency")->load();
-    settings.HighCutSlope = static_cast<Slope>(ParaEQ.getRawParameterValue("HighCut Slope")->load());
+    settings.highCutSlope = static_cast<Slope>(ParaEQ.getRawParameterValue("HighCut Slope")->load());
 
     settings.highShelfFrequency = ParaEQ.getRawParameterValue("HighShelf Frequency")->load();
     settings.highShelfQuality = ParaEQ.getRawParameterValue("HighShelf Quality")->load();
     settings.highShelfGainInDecibels = ParaEQ.getRawParameterValue("HighShelf Gain")->load();
+    settings.highShelfToBell = ParaEQ.getRawParameterValue("HighShelf to Bell")->load();
 
     settings.lowShelfFrequency = ParaEQ.getRawParameterValue("LowShelf Frequency")->load();
     settings.lowShelfQuality = ParaEQ.getRawParameterValue("LowShelf Quality")->load();
     settings.lowShelfGainInDecibels = ParaEQ.getRawParameterValue("LowShelf Gain")->load();
+    settings.lowShelfToBell = ParaEQ.getRawParameterValue("LowShelf to Bell")->load();
 
     settings.highMidFrequency = ParaEQ.getRawParameterValue("HighMid Frequency")->load();
     settings.highMidQuality = ParaEQ.getRawParameterValue("HighMid Quality")->load();
@@ -243,13 +245,24 @@ ChainSettings getChainSettings(juce::AudioProcessorValueTreeState& ParaEQ)
 //update HighShelf Filter --------------------------------------------------------
 void _7Band_ParametricEQAudioProcessor::updateHighShelfFilter(const ChainSettings& chainSettings)
 {
-    auto HighShelfCoefficients = juce::dsp::IIR::Coefficients<float>::makeHighShelf(getSampleRate(),
-                                                                                    chainSettings.highShelfFrequency,
-                                                                                    chainSettings.highShelfQuality,
-                                                                                    juce::Decibels::decibelsToGain(chainSettings.highShelfGainInDecibels));
-
-    updateCoefficients(leftChain.get<ChainPositions::HighShelf>().coefficients, HighShelfCoefficients);
-    updateCoefficients(rightChain.get<ChainPositions::HighShelf>().coefficients, HighShelfCoefficients);
+    if (chainSettings.highShelfToBell == false)
+    {
+        auto HighShelfCoefficients = juce::dsp::IIR::Coefficients<float>::makeHighShelf(getSampleRate(),
+                                                                                        chainSettings.highShelfFrequency,
+                                                                                        chainSettings.highShelfQuality,
+                                                                                        juce::Decibels::decibelsToGain(chainSettings.highShelfGainInDecibels));
+        updateCoefficients(leftChain.get<ChainPositions::HighShelf>().coefficients, HighShelfCoefficients);
+        updateCoefficients(rightChain.get<ChainPositions::HighShelf>().coefficients, HighShelfCoefficients);
+    }
+    else
+    {
+        auto HighShelfCoefficients = juce::dsp::IIR::Coefficients<float>::makePeakFilter(getSampleRate(),
+                                                                                        chainSettings.highShelfFrequency,
+                                                                                        chainSettings.highShelfQuality,
+                                                                                        juce::Decibels::decibelsToGain(chainSettings.highShelfGainInDecibels));
+        updateCoefficients(leftChain.get<ChainPositions::HighShelf>().coefficients, HighShelfCoefficients);
+        updateCoefficients(rightChain.get<ChainPositions::HighShelf>().coefficients, HighShelfCoefficients);
+    }
 }
 
 //update HighMid Filter --------------------------------------------------------
@@ -259,7 +272,6 @@ void _7Band_ParametricEQAudioProcessor::updateHighMidFilter(const ChainSettings&
                                                                                     chainSettings.highMidFrequency,
                                                                                     chainSettings.highMidQuality,
                                                                                     juce::Decibels::decibelsToGain(chainSettings.highMidGainInDecibels));
-
     updateCoefficients(leftChain.get<ChainPositions::HighMid>().coefficients, HighMidCoefficients);
     updateCoefficients(rightChain.get<ChainPositions::HighMid>().coefficients, HighMidCoefficients);
 }
@@ -279,13 +291,24 @@ void _7Band_ParametricEQAudioProcessor::updateLowMidFilter(const ChainSettings& 
 //update LowShelf Filter --------------------------------------------------------
 void _7Band_ParametricEQAudioProcessor::updateLowShelfFilter(const ChainSettings& chainSettings)
 {
-    auto LowShelfCoefficients = juce::dsp::IIR::Coefficients<float>::makeLowShelf(getSampleRate(),
-                                                                                    chainSettings.lowShelfFrequency,
-                                                                                    chainSettings.lowShelfQuality,
-                                                                                    juce::Decibels::decibelsToGain(chainSettings.lowShelfGainInDecibels));
-
-    updateCoefficients(leftChain.get<ChainPositions::LowShelf>().coefficients, LowShelfCoefficients);
-    updateCoefficients(rightChain.get<ChainPositions::LowShelf>().coefficients, LowShelfCoefficients);
+    if (chainSettings.lowShelfToBell == false)
+    {
+        auto LowShelfCoefficients = juce::dsp::IIR::Coefficients<float>::makeLowShelf(getSampleRate(),
+                                                                                        chainSettings.lowShelfFrequency,
+                                                                                        chainSettings.lowShelfQuality,
+                                                                                        juce::Decibels::decibelsToGain(chainSettings.lowShelfGainInDecibels));
+        updateCoefficients(leftChain.get<ChainPositions::LowShelf>().coefficients, LowShelfCoefficients);
+        updateCoefficients(rightChain.get<ChainPositions::LowShelf>().coefficients, LowShelfCoefficients);
+    }
+    else
+    {
+        auto LowShelfCoefficients = juce::dsp::IIR::Coefficients<float>::makePeakFilter(getSampleRate(),
+                                                                                        chainSettings.lowShelfFrequency,
+                                                                                        chainSettings.lowShelfQuality,
+                                                                                        juce::Decibels::decibelsToGain(chainSettings.lowShelfGainInDecibels));
+        updateCoefficients(leftChain.get<ChainPositions::LowShelf>().coefficients, LowShelfCoefficients);
+        updateCoefficients(rightChain.get<ChainPositions::LowShelf>().coefficients, LowShelfCoefficients);
+    }
 }
 
 //Update LowCutFilter -----------------------------------------------------------
@@ -293,12 +316,12 @@ void _7Band_ParametricEQAudioProcessor::updateLowCutFilter(const ChainSettings& 
 {
     auto LowCutCoefficients = juce::dsp::FilterDesign<float>::designIIRHighpassHighOrderButterworthMethod(chainSettings.lowCutFrequency,
                                                                                                             getSampleRate(),
-                                                                                                            2 * (chainSettings.LowCutSlope + 1));
+                                                                                                            2 * (chainSettings.lowCutSlope + 1));
     auto& leftLowCut = leftChain.get<ChainPositions::LowCut>();
     auto& rightLowCut = rightChain.get<ChainPositions::LowCut>();
 
-    updateCutFilter(leftLowCut, LowCutCoefficients, chainSettings.LowCutSlope);
-    updateCutFilter(rightLowCut, LowCutCoefficients, chainSettings.LowCutSlope);
+    updateCutFilter(leftLowCut, LowCutCoefficients, chainSettings.lowCutSlope);
+    updateCutFilter(rightLowCut, LowCutCoefficients, chainSettings.lowCutSlope);
 }
 
 //Update HighCutFilter -----------------------------------------------------------
@@ -306,12 +329,12 @@ void _7Band_ParametricEQAudioProcessor::updateHighCutFilter(const ChainSettings&
 {
     auto highCutCoefficients = juce::dsp::FilterDesign<float>::designIIRLowpassHighOrderButterworthMethod(chainSettings.highCutFrequency,
                                                                                                             getSampleRate(),
-                                                                                                            2 * (chainSettings.HighCutSlope + 1));
+                                                                                                            2 * (chainSettings.highCutSlope + 1));
     auto& leftHighCut = leftChain.get<ChainPositions::HighCut>();
     auto& rightHighCut = rightChain.get<ChainPositions::HighCut>();
 
-    updateCutFilter(leftHighCut, highCutCoefficients, chainSettings.HighCutSlope);
-    updateCutFilter(rightHighCut, highCutCoefficients, chainSettings.HighCutSlope);
+    updateCutFilter(leftHighCut, highCutCoefficients, chainSettings.highCutSlope);
+    updateCutFilter(rightHighCut, highCutCoefficients, chainSettings.highCutSlope);
 }
 
 //==============================================================================
@@ -407,9 +430,6 @@ juce::AudioProcessorValueTreeState::ParameterLayout _7Band_ParametricEQAudioProc
     parameter.add(std::make_unique<juce::AudioParameterBool>("HighMid Bypass",
                                                                 "HighMid Bypass",
                                                                 false));
-    parameter.add(std::make_unique<juce::AudioParameterBool>("HighMid to Notch",
-                                                                "HighMid to Notch",
-                                                                false));
     //LowMidPeak Filter --------------------------------------------------------------------------------------
     parameter.add(std::make_unique<juce::AudioParameterFloat>("LowMid Frequency",
                                                                 "LowMid Frequency",
@@ -425,9 +445,6 @@ juce::AudioProcessorValueTreeState::ParameterLayout _7Band_ParametricEQAudioProc
                                                                 0.0f));
     parameter.add(std::make_unique<juce::AudioParameterBool>("LowMid Bypass",
                                                                 "LowMid Bypass",
-                                                                false));
-    parameter.add(std::make_unique<juce::AudioParameterBool>("LowMid to Notch",
-                                                                "LowMid to Notch",
                                                                 false));
     //LowShelf Filter --------------------------------------------------------------------------------------
     parameter.add(std::make_unique<juce::AudioParameterFloat>("LowShelf Frequency",

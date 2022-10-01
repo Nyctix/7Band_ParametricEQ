@@ -102,14 +102,7 @@ void _7Band_ParametricEQAudioProcessor::prepareToPlay (double sampleRate, int sa
     leftChain.prepare(spec);
     rightChain.prepare(spec);
 
-    auto chainSettings = getChainSettings(ParaEQ);
-
-    updateHighShelfFilter(chainSettings);
-    updateHighMidFilter(chainSettings);
-    updateLowMidFilter(chainSettings);
-    updateLowShelfFilter(chainSettings);
-    updateLowCutFilter(chainSettings);
-    updateHighCutFilter(chainSettings);
+    updateAllFilters();
 }
 
 void _7Band_ParametricEQAudioProcessor::releaseResources()
@@ -159,15 +152,8 @@ void _7Band_ParametricEQAudioProcessor::processBlock (juce::AudioBuffer<float>& 
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
-    auto chainSettings = getChainSettings(ParaEQ);
+    updateAllFilters();
 
-    updateHighShelfFilter(chainSettings);
-    updateHighMidFilter(chainSettings);
-    updateLowMidFilter(chainSettings);
-    updateLowShelfFilter(chainSettings);
-    updateLowCutFilter(chainSettings);
-    updateHighCutFilter(chainSettings);
-   
     juce::dsp::AudioBlock<float> block(buffer);
 
     auto leftBlock = block.getSingleChannelBlock(0);
@@ -196,15 +182,18 @@ juce::AudioProcessorEditor* _7Band_ParametricEQAudioProcessor::createEditor()
 //==============================================================================
 void _7Band_ParametricEQAudioProcessor::getStateInformation (juce::MemoryBlock& destData)
 {
-    // You should use this method to store your parameters in the memory block.
-    // You could do that either as raw data, or use the XML or ValueTree classes
-    // as intermediaries to make it easy to save and load complex data.
+    juce::MemoryOutputStream mos(destData, true);
+    ParaEQ.state.writeToStream(mos);
 }
 
 void _7Band_ParametricEQAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
-    // You should use this method to restore your parameters from this memory block,
-    // whose contents will have been created by the getStateInformation() call.
+    auto tree = juce::ValueTree::readFromData(data, sizeInBytes);
+    if (tree.isValid())
+    {
+        ParaEQ.replaceState(tree);
+        updateAllFilters();
+    }
 }
 
 //==============================================================================
@@ -343,6 +332,21 @@ void _7Band_ParametricEQAudioProcessor::updateCoefficients(Coefficients& old, co
 {
     *old = *replacements;
 }
+
+//==============================================================================
+//Update All Filters Function
+void _7Band_ParametricEQAudioProcessor::updateAllFilters()
+{
+    auto chainSettings = getChainSettings(ParaEQ);
+
+    updateLowCutFilter(chainSettings);
+    updateHighCutFilter(chainSettings);
+    updateHighShelfFilter(chainSettings);
+    updateHighMidFilter(chainSettings);
+    updateLowMidFilter(chainSettings);
+    updateLowShelfFilter(chainSettings);
+}
+
 
 //==============================================================================
 //Parameter Layout

@@ -204,27 +204,33 @@ ChainSettings getChainSettings(juce::AudioProcessorValueTreeState& ParaEQ)
 
     settings.lowCutFrequency = ParaEQ.getRawParameterValue("LowCut Frequency")->load();
     settings.lowCutSlope = static_cast<Slope>(ParaEQ.getRawParameterValue("LowCut Slope")->load());
+    settings.lowCutBypassed = ParaEQ.getRawParameterValue("LowCut Bypass")->load();
 
     settings.highCutFrequency = ParaEQ.getRawParameterValue("HighCut Frequency")->load();
     settings.highCutSlope = static_cast<Slope>(ParaEQ.getRawParameterValue("HighCut Slope")->load());
+    settings.highCutBypassed = ParaEQ.getRawParameterValue("HighCut Bypass")->load();
 
     settings.highShelfFrequency = ParaEQ.getRawParameterValue("HighShelf Frequency")->load();
     settings.highShelfQuality = ParaEQ.getRawParameterValue("HighShelf Quality")->load();
     settings.highShelfGainInDecibels = ParaEQ.getRawParameterValue("HighShelf Gain")->load();
     settings.highShelfToBell = ParaEQ.getRawParameterValue("HighShelf to Bell")->load();
+    settings.highShelfBypassed = ParaEQ.getRawParameterValue("HighShelf Bypass")->load();
 
     settings.lowShelfFrequency = ParaEQ.getRawParameterValue("LowShelf Frequency")->load();
     settings.lowShelfQuality = ParaEQ.getRawParameterValue("LowShelf Quality")->load();
     settings.lowShelfGainInDecibels = ParaEQ.getRawParameterValue("LowShelf Gain")->load();
     settings.lowShelfToBell = ParaEQ.getRawParameterValue("LowShelf to Bell")->load();
+    settings.lowShelfBypassed = ParaEQ.getRawParameterValue("LowShelf Bypass")->load();
 
     settings.highMidFrequency = ParaEQ.getRawParameterValue("HighMid Frequency")->load();
     settings.highMidQuality = ParaEQ.getRawParameterValue("HighMid Quality")->load();
     settings.highMidGainInDecibels = ParaEQ.getRawParameterValue("HighMid Gain")->load();
+    settings.highMidBypassed = ParaEQ.getRawParameterValue("HighMid Bypass")->load();
 
     settings.lowMidFrequency = ParaEQ.getRawParameterValue("LowMid Frequency")->load();
     settings.lowMidQuality = ParaEQ.getRawParameterValue("LowMid Quality")->load();
     settings.lowMidGainInDecibels = ParaEQ.getRawParameterValue("LowMid Gain")->load();
+    settings.lowMidBypassed = ParaEQ.getRawParameterValue("LowMid Bypass")->load();
 
     return settings;
 }
@@ -240,6 +246,9 @@ void _7Band_ParametricEQAudioProcessor::updateHighShelfFilter(const ChainSetting
                                                                                         chainSettings.highShelfFrequency,
                                                                                         chainSettings.highShelfQuality,
                                                                                         juce::Decibels::decibelsToGain(chainSettings.highShelfGainInDecibels));
+        leftChain.setBypassed<ChainPositions::HighShelf>(chainSettings.highShelfBypassed);
+        rightChain.setBypassed<ChainPositions::HighShelf>(chainSettings.highShelfBypassed);
+
         updateCoefficients(leftChain.get<ChainPositions::HighShelf>().coefficients, HighShelfCoefficients);
         updateCoefficients(rightChain.get<ChainPositions::HighShelf>().coefficients, HighShelfCoefficients);
     }
@@ -249,6 +258,9 @@ void _7Band_ParametricEQAudioProcessor::updateHighShelfFilter(const ChainSetting
                                                                                         chainSettings.highShelfFrequency,
                                                                                         chainSettings.highShelfQuality,
                                                                                         juce::Decibels::decibelsToGain(chainSettings.highShelfGainInDecibels));
+        leftChain.setBypassed<ChainPositions::HighShelf>(chainSettings.highShelfBypassed);
+        rightChain.setBypassed<ChainPositions::HighShelf>(chainSettings.highShelfBypassed);
+
         updateCoefficients(leftChain.get<ChainPositions::HighShelf>().coefficients, HighShelfCoefficients);
         updateCoefficients(rightChain.get<ChainPositions::HighShelf>().coefficients, HighShelfCoefficients);
     }
@@ -261,6 +273,9 @@ void _7Band_ParametricEQAudioProcessor::updateHighMidFilter(const ChainSettings&
                                                                                     chainSettings.highMidFrequency,
                                                                                     chainSettings.highMidQuality,
                                                                                     juce::Decibels::decibelsToGain(chainSettings.highMidGainInDecibels));
+    leftChain.setBypassed<ChainPositions::HighMid>(chainSettings.highMidBypassed);
+    rightChain.setBypassed<ChainPositions::HighMid>(chainSettings.highMidBypassed);
+
     updateCoefficients(leftChain.get<ChainPositions::HighMid>().coefficients, HighMidCoefficients);
     updateCoefficients(rightChain.get<ChainPositions::HighMid>().coefficients, HighMidCoefficients);
 }
@@ -272,6 +287,8 @@ void _7Band_ParametricEQAudioProcessor::updateLowMidFilter(const ChainSettings& 
                                                                                     chainSettings.lowMidFrequency,
                                                                                     chainSettings.lowMidQuality,
                                                                                     juce::Decibels::decibelsToGain(chainSettings.lowMidGainInDecibels));
+    leftChain.setBypassed<ChainPositions::LowMid>(chainSettings.lowMidBypassed);
+    rightChain.setBypassed<ChainPositions::LowMid>(chainSettings.lowMidBypassed);
 
     updateCoefficients(leftChain.get<ChainPositions::LowMid>().coefficients, LowMidCoefficients);
     updateCoefficients(rightChain.get<ChainPositions::LowMid>().coefficients, LowMidCoefficients);
@@ -286,6 +303,9 @@ void _7Band_ParametricEQAudioProcessor::updateLowShelfFilter(const ChainSettings
                                                                                         chainSettings.lowShelfFrequency,
                                                                                         chainSettings.lowShelfQuality,
                                                                                         juce::Decibels::decibelsToGain(chainSettings.lowShelfGainInDecibels));
+        leftChain.setBypassed<ChainPositions::LowShelf>(chainSettings.lowShelfBypassed);
+        rightChain.setBypassed<ChainPositions::LowShelf>(chainSettings.lowShelfBypassed);
+
         updateCoefficients(leftChain.get<ChainPositions::LowShelf>().coefficients, LowShelfCoefficients);
         updateCoefficients(rightChain.get<ChainPositions::LowShelf>().coefficients, LowShelfCoefficients);
     }
@@ -295,6 +315,9 @@ void _7Band_ParametricEQAudioProcessor::updateLowShelfFilter(const ChainSettings
                                                                                         chainSettings.lowShelfFrequency,
                                                                                         chainSettings.lowShelfQuality,
                                                                                         juce::Decibels::decibelsToGain(chainSettings.lowShelfGainInDecibels));
+        leftChain.setBypassed<ChainPositions::LowShelf>(chainSettings.lowShelfBypassed);
+        rightChain.setBypassed<ChainPositions::LowShelf>(chainSettings.lowShelfBypassed);
+
         updateCoefficients(leftChain.get<ChainPositions::LowShelf>().coefficients, LowShelfCoefficients);
         updateCoefficients(rightChain.get<ChainPositions::LowShelf>().coefficients, LowShelfCoefficients);
     }
@@ -309,6 +332,9 @@ void _7Band_ParametricEQAudioProcessor::updateLowCutFilter(const ChainSettings& 
     auto& leftLowCut = leftChain.get<ChainPositions::LowCut>();
     auto& rightLowCut = rightChain.get<ChainPositions::LowCut>();
 
+    leftChain.setBypassed<ChainPositions::LowCut>(chainSettings.lowCutBypassed);
+    rightChain.setBypassed<ChainPositions::LowCut>(chainSettings.lowCutBypassed);
+
     updateCutFilter(leftLowCut, LowCutCoefficients, chainSettings.lowCutSlope);
     updateCutFilter(rightLowCut, LowCutCoefficients, chainSettings.lowCutSlope);
 }
@@ -321,6 +347,9 @@ void _7Band_ParametricEQAudioProcessor::updateHighCutFilter(const ChainSettings&
                                                                                                             2 * (chainSettings.highCutSlope + 1));
     auto& leftHighCut = leftChain.get<ChainPositions::HighCut>();
     auto& rightHighCut = rightChain.get<ChainPositions::HighCut>();
+
+    leftChain.setBypassed<ChainPositions::HighCut>(chainSettings.highCutBypassed);
+    rightChain.setBypassed<ChainPositions::HighCut>(chainSettings.highCutBypassed);
 
     updateCutFilter(leftHighCut, highCutCoefficients, chainSettings.highCutSlope);
     updateCutFilter(rightHighCut, highCutCoefficients, chainSettings.highCutSlope);

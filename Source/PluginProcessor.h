@@ -26,7 +26,11 @@ struct ChainSettings
     float lowMidFrequency{ 0 }, lowMidGainInDecibels{ 0 }, lowMidQuality{ 1.f };
     float lowShelfFrequency{ 0 }, lowShelfGainInDecibels{ 0 }, lowShelfQuality{ 1.f };
 
-    bool highShelfToBell{ 0 }, lowShelfToBell{ 0 };
+    bool highShelfToBell{ false }, lowShelfToBell{ false };
+
+    bool lowCutBypassed{ false }, highCutBypassed{ false },
+            highShelfBypassed{ false }, lowShelfBypassed{ false },
+            highMidBypassed{ false }, lowMidBypassed{ false };
 
     Slope lowCutSlope{ Slope::Slope_12 }, highCutSlope{ Slope::Slope_12 };
 };

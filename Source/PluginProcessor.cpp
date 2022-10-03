@@ -19,7 +19,7 @@ _7Band_ParametricEQAudioProcessor::_7Band_ParametricEQAudioProcessor()
                       #endif
                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                      #endif
-                       )
+                       ), ParaEQ(*this,nullptr, "Parameters", createParameterLayout())
 #endif
 {
 }
@@ -152,8 +152,25 @@ void _7Band_ParametricEQAudioProcessor::processBlock (juce::AudioBuffer<float>& 
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
-    updateAllFilters();
+    float dbInputGain = *ParaEQ.getRawParameterValue("Input Gain");
+    float rawInputGain = juce::Decibels::decibelsToGain(dbInputGain);
+    float dbOutputGain = *ParaEQ.getRawParameterValue("Output Gain");
+    float rawOutputGain = juce::Decibels::decibelsToGain(dbOutputGain);
+    bool phase = *ParaEQ.getRawParameterValue("Phase");
 
+    if (phase == false)
+    {
+        buffer.applyGain(rawInputGain);
+        updateAllFilters();
+        buffer.applyGain(rawInputGain);
+    }
+    else
+    {
+        buffer.applyGain(rawInputGain * -1.0);
+        updateAllFilters();
+        buffer.applyGain(rawOutputGain * -1.0);
+    }
+    
     juce::dsp::AudioBlock<float> block(buffer);
 
     auto leftBlock = block.getSingleChannelBlock(0);
@@ -164,7 +181,6 @@ void _7Band_ParametricEQAudioProcessor::processBlock (juce::AudioBuffer<float>& 
 
     leftChain.process(leftContext);
     rightChain.process(rightContext);
-
 }
 
 //==============================================================================
@@ -201,6 +217,10 @@ void _7Band_ParametricEQAudioProcessor::setStateInformation (const void* data, i
 ChainSettings getChainSettings(juce::AudioProcessorValueTreeState& ParaEQ)
 {
     ChainSettings settings;
+
+    settings.inputGain = ParaEQ.getRawParameterValue("Input Gain")->load();
+    settings.outputGain = ParaEQ.getRawParameterValue("Output Gain")->load();
+    settings.phase = ParaEQ.getRawParameterValue("Phase")->load();
 
     settings.lowCutFrequency = ParaEQ.getRawParameterValue("LowCut Frequency")->load();
     settings.lowCutSlope = static_cast<Slope>(ParaEQ.getRawParameterValue("LowCut Slope")->load());
@@ -392,8 +412,8 @@ juce::AudioProcessorValueTreeState::ParameterLayout _7Band_ParametricEQAudioProc
                                                                 "Output Gain",
                                                                 juce::NormalisableRange<float>(-15.0f, 15.0f, 1.0f, 1.0f),
                                                                 0.0f));
-    parameter.add(std::make_unique<juce::AudioParameterBool>("Phase Invert",
-                                                                "Phase Invert",
+    parameter.add(std::make_unique<juce::AudioParameterBool>("Phase",
+                                                                "Phase",
                                                                 false));
     //HighCut & LowCut Slope Values --------------------------------------------------------------------------------------
     juce::StringArray slopeArray;

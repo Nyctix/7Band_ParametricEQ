@@ -25,9 +25,10 @@ struct ChainSettings
     float highMidFrequency{ 0 }, highMidGainInDecibels{ 0 }, highMidQuality{ 1.f };
     float lowMidFrequency{ 0 }, lowMidGainInDecibels{ 0 }, lowMidQuality{ 1.f };
     float lowShelfFrequency{ 0 }, lowShelfGainInDecibels{ 0 }, lowShelfQuality{ 1.f };
+    float inputGain{ 0 }, outputGain{ 0 };
 
+    bool phase{ false };
     bool highShelfToBell{ false }, lowShelfToBell{ false };
-
     bool lowCutBypassed{ false }, highCutBypassed{ false },
             highShelfBypassed{ false }, lowShelfBypassed{ false },
             highMidBypassed{ false }, lowMidBypassed{ false };

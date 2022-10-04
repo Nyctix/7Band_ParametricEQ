@@ -161,15 +161,13 @@ void _7Band_ParametricEQAudioProcessor::processBlock (juce::AudioBuffer<float>& 
     if (phase == false)
     {
         buffer.applyGain(rawInputGain);
-        updateAllFilters();
-        buffer.applyGain(rawInputGain);
     }
     else
     {
         buffer.applyGain(rawInputGain * -1.0);
-        updateAllFilters();
-        buffer.applyGain(rawOutputGain * -1.0);
     }
+    updateAllFilters();
+    buffer.applyGain(rawOutputGain);
     
     juce::dsp::AudioBlock<float> block(buffer);
 

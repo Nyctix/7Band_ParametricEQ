@@ -189,8 +189,8 @@ bool _7Band_ParametricEQAudioProcessor::hasEditor() const
 
 juce::AudioProcessorEditor* _7Band_ParametricEQAudioProcessor::createEditor()
 {
-    //return new _7Band_ParametricEQAudioProcessorEditor (*this);
-    return new juce::GenericAudioProcessorEditor(*this);
+    return new _7Band_ParametricEQAudioProcessorEditor (*this);
+    //return new juce::GenericAudioProcessorEditor(*this);
 }
 
 //==============================================================================

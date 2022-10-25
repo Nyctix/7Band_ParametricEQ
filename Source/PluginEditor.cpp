@@ -15,7 +15,7 @@ _7Band_ParametricEQAudioProcessorEditor::_7Band_ParametricEQAudioProcessorEditor
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
-    setSize (400, 300);
+    setSize(500, 800);
 }
 
 _7Band_ParametricEQAudioProcessorEditor::~_7Band_ParametricEQAudioProcessorEditor()
@@ -25,12 +25,7 @@ _7Band_ParametricEQAudioProcessorEditor::~_7Band_ParametricEQAudioProcessorEdito
 //==============================================================================
 void _7Band_ParametricEQAudioProcessorEditor::paint (juce::Graphics& g)
 {
-    // (Our component is opaque, so we must completely fill the background with a solid colour)
-    g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
-
-    g.setColour (juce::Colours::white);
-    g.setFont (15.0f);
-    g.drawFittedText ("Hello World!", getLocalBounds(), juce::Justification::centred, 1);
+    g.drawImage(juce::ImageCache::getFromMemory(BinaryData::RoughLayout_jpeg, BinaryData::RoughLayout_jpegSize), getLocalBounds().toFloat());
 }
 
 void _7Band_ParametricEQAudioProcessorEditor::resized()

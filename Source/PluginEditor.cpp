@@ -15,6 +15,12 @@ _7Band_ParametricEQAudioProcessorEditor::_7Band_ParametricEQAudioProcessorEditor
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
+
+    for (auto* componenet : getComponents())
+    {
+        addAndMakeVisible(componenet);
+    }
+
     setSize(500, 800);
 }
 
@@ -32,4 +38,41 @@ void _7Band_ParametricEQAudioProcessorEditor::resized()
 {
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
+
+    auto totalArea = getLocalBounds();
+
+    inputGainSlider.setBounds(0, 0, 70, 70); // (pos x, pos y, size width, size height)
+
+
 }
+
+std::vector<juce::Component*> _7Band_ParametricEQAudioProcessorEditor::getComponents()
+{
+    return
+    {
+        &inputGainSlider,
+        &outputGainSlider,
+
+        &lowCutFreqSlider,
+        &highCutFreqSlider,
+
+        &highShelfFreqSlider,
+        &highShelfQSlider,
+        &highShelfGainSlider,
+
+        &highMidFreqSlider,
+        &highMidQSlider,
+        &highMidGainSlider,
+
+        &lowMidFreqSlider,
+        &lowMidQSlider,
+        &lowMidGainSlider,
+
+        &lowShelfFreqSlider,
+        &lowShelfQSlider,
+        &lowShelfGainSlider
+
+    };
+}
+
+

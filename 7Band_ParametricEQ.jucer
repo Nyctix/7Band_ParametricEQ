@@ -6,8 +6,7 @@
               cppLanguageStandard="17" pluginAAXCategory="1" pluginVST3Category="EQ">
   <MAINGROUP id="IZTgLz" name="7Band_ParametricEQ">
     <GROUP id="{47383CC2-9291-AF42-5466-C819EB98262F}" name="Assets">
-      <FILE id="m95fEC" name="RoughLayout.jpeg" compile="0" resource="1"
-            file="Assets/RoughLayout.jpeg"/>
+      <FILE id="N5zDg6" name="RoughLayout.png" compile="0" resource="1" file="Assets/RoughLayout.png"/>
     </GROUP>
     <GROUP id="{87DEF29F-875B-A393-5A09-EA3633FAC614}" name="Source">
       <FILE id="MgaNVE" name="PluginProcessor.cpp" compile="1" resource="0"

@@ -44,7 +44,9 @@ private:
         outputGainSlider,
 
         lowCutFreqSlider,
+        lowCutSlopeSlider,
         highCutFreqSlider,
+        highCutSlopeSlider,
 
         highShelfFreqSlider,
         highShelfQSlider,

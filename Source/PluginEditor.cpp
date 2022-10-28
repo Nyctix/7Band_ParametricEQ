@@ -22,6 +22,33 @@ _7Band_ParametricEQAudioProcessorEditor::_7Band_ParametricEQAudioProcessorEditor
     }
 
     setSize(500, 800);
+
+    inputGainSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ, "Input Gain", inputGainSlider);
+    outputGainSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ, "Output Gain", outputGainSlider);
+
+    lowCutFreqSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ, "LowCut Frequency", lowCutFreqSlider);
+    lowCutSlopeSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ, "LowCut Slope", lowCutSlopeSlider);
+
+    highCutFreqSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ, "HighCut Frequency", highCutFreqSlider);
+    highCutSlopeSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ, "HighCut Slope", highCutSlopeSlider);
+
+    highShelfFreqSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ, "HighShelf Frequency", highShelfFreqSlider);
+    highShelfGainSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ, "HighShelf Gain", highShelfGainSlider);
+    highShelfQSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ, "HighShelf Quality", highShelfQSlider);
+
+    lowShelfFreqSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ, "LowShelf Frequency", lowShelfFreqSlider);
+    lowShelfGainSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ, "LowShelf Gain", lowShelfGainSlider);
+    lowShelfQSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ, "LowShelf Quality", lowShelfQSlider);
+    
+    highMidFreqSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ, "HighMid Frequency", highMidFreqSlider);
+    highMidGainSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ, "HighMid Gain", highMidGainSlider);
+    highMidQSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ, "HighMid Quality", highMidQSlider);
+
+    lowMidFreqSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ, "LowMid Frequency", lowMidFreqSlider);
+    lowMidGainSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ, "LowMid Gain", lowMidGainSlider);
+    lowMidQSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ, "LowMid Quality", lowMidQSlider);
+
+
 }
 
 _7Band_ParametricEQAudioProcessorEditor::~_7Band_ParametricEQAudioProcessorEditor()
@@ -41,8 +68,8 @@ void _7Band_ParametricEQAudioProcessorEditor::resized()
 
     auto totalArea = getLocalBounds();
 
-    inputGainSlider.setBounds(337, 652, 75, 75); //346, 661
-    outputGainSlider.setBounds(337, 262, 75, 75); //346, 271
+    inputGainSlider.setBounds(337, 262, 75, 75); //346, 271
+    outputGainSlider.setBounds(337, 652, 75, 75); //346, 661
 
     lowCutFreqSlider.setBounds(294, 18, 75, 75); //303, 27
     lowCutSlopeSlider.setBounds(294, 111, 75, 75); //303, 121

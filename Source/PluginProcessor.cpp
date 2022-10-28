@@ -433,7 +433,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout _7Band_ParametricEQAudioProc
                                                                 0));
     parameter.add(std::make_unique<juce::AudioParameterBool>("LowCut Bypass",
                                                                 "LowCut Bypass",
-                                                                false));
+                                                                true));
     //HighCut Filter ---------------------------------------------------------------------------------------
     parameter.add(std::make_unique<juce::AudioParameterFloat>("HighCut Frequency",
                                                                "HighCut Frequency",
@@ -445,7 +445,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout _7Band_ParametricEQAudioProc
                                                                 0));
     parameter.add(std::make_unique<juce::AudioParameterBool>("HighCut Bypass",
                                                                 "HighCut Bypass",
-                                                                false));
+                                                                true));
     //HighShelf Filter -------------------------------------------------------------------------------------
     parameter.add(std::make_unique<juce::AudioParameterFloat>("HighShelf Frequency",
                                                                 "HighShelf Frequency",
@@ -461,7 +461,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout _7Band_ParametricEQAudioProc
                                                                 0.0f));
     parameter.add(std::make_unique<juce::AudioParameterBool>("HighShelf Bypass",
                                                                 "HighShelf Bypass",
-                                                                false));
+                                                                true));
     parameter.add(std::make_unique<juce::AudioParameterBool>("HighShelf to Bell",
                                                                 "HighShelf to Bell",
                                                                 false));
@@ -480,7 +480,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout _7Band_ParametricEQAudioProc
                                                                 0.0f));
     parameter.add(std::make_unique<juce::AudioParameterBool>("HighMid Bypass",
                                                                 "HighMid Bypass",
-                                                                false));
+                                                                true));
     //LowMidPeak Filter --------------------------------------------------------------------------------------
     parameter.add(std::make_unique<juce::AudioParameterFloat>("LowMid Frequency",
                                                                 "LowMid Frequency",
@@ -496,7 +496,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout _7Band_ParametricEQAudioProc
                                                                 0.0f));
     parameter.add(std::make_unique<juce::AudioParameterBool>("LowMid Bypass",
                                                                 "LowMid Bypass",
-                                                                false));
+                                                                true));
     //LowShelf Filter --------------------------------------------------------------------------------------
     parameter.add(std::make_unique<juce::AudioParameterFloat>("LowShelf Frequency",
                                                                 "LowShelf Frequency",
@@ -512,7 +512,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout _7Band_ParametricEQAudioProc
                                                                 0.0f));
     parameter.add(std::make_unique<juce::AudioParameterBool>("LowShelf Bypass",
                                                                 "LowShelf Bypass",
-                                                                false));
+                                                                true));
     parameter.add(std::make_unique<juce::AudioParameterBool>("LowShelf to Bell",
                                                                 "Lowhself to Bell",
                                                                 false));

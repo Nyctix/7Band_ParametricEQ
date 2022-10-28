@@ -64,6 +64,17 @@ private:
         lowShelfQSlider,
         lowShelfGainSlider;
 
+    juce::ToggleButton
+        phaseInvertButton,
+        lowCutBypassButton,
+        highCutBypassButton,
+        highShelfBypassButton,
+        lowShelfBypassButton,
+        highMidBypassButton,
+        lowMidBypassButton,
+        highShelfToBellButton,
+        lowShelftoBellButton;
+
     std::vector<juce::Component*> getComponents();
 
     //Slider Attachments

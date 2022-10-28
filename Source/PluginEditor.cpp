@@ -23,40 +23,100 @@ _7Band_ParametricEQAudioProcessorEditor::_7Band_ParametricEQAudioProcessorEditor
 
     setSize(500, 800);
 
-    inputGainSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ, "Input Gain", inputGainSlider);
-    outputGainSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ, "Output Gain", outputGainSlider);
-    phaseInvertButtonAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(audioProcessor.ParaEQ, "Phase", phaseInvertButton);
+    //Parameter Attachments - Input, Output & Phase
+    inputGainSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ, 
+                                                                                                        "Input Gain", 
+                                                                                                        inputGainSlider);
+    outputGainSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ, 
+                                                                                                        "Output Gain", 
+                                                                                                        outputGainSlider);
+    phaseInvertButtonAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(audioProcessor.ParaEQ,
+                                                                                                        "Phase", 
+                                                                                                        phaseInvertButton);
 
-    lowCutFreqSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ, "LowCut Frequency", lowCutFreqSlider);
-    lowCutSlopeSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ, "LowCut Slope", lowCutSlopeSlider);
-    lowCutBypassButtonAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(audioProcessor.ParaEQ, "LowCut Bypass", lowCutBypassButton);
+    //Parameter Attachments - LowCut Filter
+    lowCutFreqSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ,
+                                                                                                        "LowCut Frequency",
+                                                                                                        lowCutFreqSlider);
+    lowCutSlopeSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ,
+                                                                                                        "LowCut Slope", 
+                                                                                                        lowCutSlopeSlider);
+    lowCutBypassButtonAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(audioProcessor.ParaEQ,
+                                                                                                        "LowCut Bypass",
+                                                                                                        lowCutBypassButton);
 
-    highCutFreqSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ, "HighCut Frequency", highCutFreqSlider);
-    highCutSlopeSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ, "HighCut Slope", highCutSlopeSlider);
-    highCutBypassButtonAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(audioProcessor.ParaEQ, "HighCut Bypass", highCutBypassButton);
+    //Parameter Attachments - HighCut Filter
+    highCutFreqSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ,
+                                                                                                        "HighCut Frequency",
+                                                                                                        highCutFreqSlider);
+    highCutSlopeSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ,
+                                                                                                        "HighCut Slope",
+                                                                                                        highCutSlopeSlider);
+    highCutBypassButtonAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(audioProcessor.ParaEQ,
+                                                                                                        "HighCut Bypass",
+                                                                                                        highCutBypassButton);
 
-    highShelfFreqSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ, "HighShelf Frequency", highShelfFreqSlider);
-    highShelfGainSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ, "HighShelf Gain", highShelfGainSlider);
-    highShelfQSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ, "HighShelf Quality", highShelfQSlider);
-    highShelfToBellButtonAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(audioProcessor.ParaEQ, "HighShelf to Bell", highShelfToBellButton);
-    highShelfBypassButtonAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(audioProcessor.ParaEQ, "HighShelf Bypass", highShelfBypassButton);
+    //Parameter Attachments - HighShelf Filter
+    highShelfFreqSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ, 
+                                                                                                        "HighShelf Frequency",
+                                                                                                        highShelfFreqSlider);
+    highShelfGainSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ,
+                                                                                                        "HighShelf Gain",
+                                                                                                         highShelfGainSlider);
+    highShelfQSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ,
+                                                                                                        "HighShelf Quality",
+                                                                                                        highShelfQSlider);
+    highShelfToBellButtonAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(audioProcessor.ParaEQ,
+                                                                                                        "HighShelf to Bell",
+                                                                                                        highShelfToBellButton);
+    highShelfBypassButtonAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(audioProcessor.ParaEQ,
+                                                                                                        "HighShelf Bypass",
+                                                                                                        highShelfBypassButton);
 
-    lowShelfFreqSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ, "LowShelf Frequency", lowShelfFreqSlider);
-    lowShelfGainSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ, "LowShelf Gain", lowShelfGainSlider);
-    lowShelfQSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ, "LowShelf Quality", lowShelfQSlider);
-    lowShelfToBellButtonAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(audioProcessor.ParaEQ, "LowShelf to Bell", lowShelftoBellButton);
-    lowShelfBypassButtonAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(audioProcessor.ParaEQ, "LowShelf Bypass", lowShelfBypassButton);
+    //Parameter Attachments - LowShelf Filter
+    lowShelfFreqSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ,
+                                                                                                        "LowShelf Frequency",
+                                                                                                        lowShelfFreqSlider);
+    lowShelfGainSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ,
+                                                                                                        "LowShelf Gain",
+                                                                                                        lowShelfGainSlider);
+    lowShelfQSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ,
+                                                                                                        "LowShelf Quality",
+                                                                                                        lowShelfQSlider);
+    lowShelfToBellButtonAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(audioProcessor.ParaEQ,
+                                                                                                        "LowShelf to Bell",
+                                                                                                        lowShelftoBellButton);
+    lowShelfBypassButtonAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(audioProcessor.ParaEQ,
+                                                                                                        "LowShelf Bypass",
+                                                                                                        lowShelfBypassButton);
 
-    highMidFreqSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ, "HighMid Frequency", highMidFreqSlider);
-    highMidGainSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ, "HighMid Gain", highMidGainSlider);
-    highMidQSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ, "HighMid Quality", highMidQSlider);
-    highMidBypassButtonAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(audioProcessor.ParaEQ, "HighMid Bypass", highMidBypassButton);
+    //Parameter Attachments - HighMid Filter
+    highMidFreqSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ,
+                                                                                                        "HighMid Frequency",
+                                                                                                        highMidFreqSlider);
+    highMidGainSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ,
+                                                                                                        "HighMid Gain",
+                                                                                                        highMidGainSlider);
+    highMidQSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ,
+                                                                                                        "HighMid Quality",
+                                                                                                        highMidQSlider);
+    highMidBypassButtonAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(audioProcessor.ParaEQ,
+                                                                                                        "HighMid Bypass",
+                                                                                                        highMidBypassButton);
 
-    lowMidFreqSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ, "LowMid Frequency", lowMidFreqSlider);
-    lowMidGainSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ, "LowMid Gain", lowMidGainSlider);
-    lowMidQSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ, "LowMid Quality", lowMidQSlider);
-    lowMidBypassButtonAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(audioProcessor.ParaEQ, "LowMid Bypass", lowMidBypassButton);
-
+    //Parameter Attachments - LowMid Filter
+    lowMidFreqSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ,
+                                                                                                        "LowMid Frequency",
+                                                                                                        lowMidFreqSlider);
+    lowMidGainSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ,
+                                                                                                        "LowMid Gain",
+                                                                                                        lowMidGainSlider);
+    lowMidQSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ,
+                                                                                                        "LowMid Quality",
+                                                                                                        lowMidQSlider);
+    lowMidBypassButtonAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(audioProcessor.ParaEQ,
+                                                                                                        "LowMid Bypass",
+                                                                                                        lowMidBypassButton);
 }
 
 _7Band_ParametricEQAudioProcessorEditor::~_7Band_ParametricEQAudioProcessorEditor()
@@ -109,7 +169,6 @@ void _7Band_ParametricEQAudioProcessorEditor::resized()
     lowShelfQSlider.setBounds(87, 614, 75, 75); // 96, 623
     lowShelftoBellButton.setBounds(187, 639, 25, 25); //187, 638
     lowShelfBypassButton.setBounds(187, 575, 25, 25); //187, 574
-
 }
 
 std::vector<juce::Component*> _7Band_ParametricEQAudioProcessorEditor::getComponents()
@@ -148,8 +207,5 @@ std::vector<juce::Component*> _7Band_ParametricEQAudioProcessorEditor::getCompon
         &lowShelfGainSlider,
         &lowShelfBypassButton,
         &lowShelftoBellButton
-
     };
 }
-
-

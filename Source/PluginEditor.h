@@ -64,6 +64,7 @@ private:
         lowShelfQSlider,
         lowShelfGainSlider;
 
+    //Buttons
     juce::ToggleButton
         phaseInvertButton,
         lowCutBypassButton,
@@ -78,7 +79,6 @@ private:
     std::vector<juce::Component*> getComponents();
 
     //Slider Attachments
-
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> inputGainSliderAttachment;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> outputGainSliderAttachment;
     std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment> phaseInvertButtonAttachment;

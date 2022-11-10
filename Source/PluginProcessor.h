@@ -1,13 +1,6 @@
-/*
-  ==============================================================================
-
-    This file contains the basic framework code for a JUCE plugin processor.
-
-  ==============================================================================
-*/
+// ==============================================================================
 
 #pragma once
-
 #include <JuceHeader.h>
 
 enum Slope
@@ -39,8 +32,7 @@ struct ChainSettings
 ChainSettings getChainSettings(juce::AudioProcessorValueTreeState& ParaEQ);
 
 //==============================================================================
-/**
-*/
+
 class _7Band_ParametricEQAudioProcessor  : public juce::AudioProcessor
                             #if JucePlugin_Enable_ARA
                              , public juce::AudioProcessorARAExtension

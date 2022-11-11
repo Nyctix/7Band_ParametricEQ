@@ -103,12 +103,10 @@ void _7Band_ParametricEQAudioProcessor::prepareToPlay (double sampleRate, int sa
     InputLevelL.setCurrentAndTargetValue(-100.f);
     InputLevelR.setCurrentAndTargetValue(-100.f);
 
-
     OutputLevelL.reset(sampleRate, 0.5);
     OutputLevelR.reset(sampleRate, 0.5);
     OutputLevelL.setCurrentAndTargetValue(-100.f);
     OutputLevelR.setCurrentAndTargetValue(-100.f);
-
 }
 
 void _7Band_ParametricEQAudioProcessor::releaseResources()
@@ -556,15 +554,24 @@ juce::AudioProcessorValueTreeState::ParameterLayout _7Band_ParametricEQAudioProc
     return parameter;
 }
 
-float _7Band_ParametricEQAudioProcessor::getRmsValue(const int channel) const
+float _7Band_ParametricEQAudioProcessor::getInputRmsValue(const int channel) const
 {
     jassert(channel == 0 || channel == 1);
     if (channel == 0)
         return InputLevelL.getCurrentValue();
-        return OutputLevelR.getCurrentValue();
     if (channel == 1)
         return InputLevelR.getCurrentValue();
+
+    return 0.0f;
+}
+
+float _7Band_ParametricEQAudioProcessor::getOutputRmsValue(const int channel) const
+{
+    jassert(channel == 0 || channel == 1);
+    if (channel == 0)
         return OutputLevelL.getCurrentValue();
+    if (channel == 1)
+        return OutputLevelR.getCurrentValue();
 
     return 0.0f;
 }

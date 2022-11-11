@@ -80,7 +80,8 @@ public:
     static juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
     juce::AudioProcessorValueTreeState ParaEQ {*this, nullptr, "Parameters", createParameterLayout() };
 
-    float getRmsValue(const int channel) const;
+    float getInputRmsValue(const int channel) const;
+    float getOutputRmsValue(const int channel) const;
 
 private:
     using Filter = juce::dsp::IIR::Filter<float>;

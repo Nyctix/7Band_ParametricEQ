@@ -66,13 +66,13 @@ _7Band_ParametricEQAudioProcessorEditor::~_7Band_ParametricEQAudioProcessorEdito
 
 void _7Band_ParametricEQAudioProcessorEditor::timerCallback()
 {
-    InputMeterL.setLevel(audioProcessor.getRmsValue(0));
-    InputMeterR.setLevel(audioProcessor.getRmsValue(1));
+    InputMeterL.setLevel(audioProcessor.getInputRmsValue(0));
+    InputMeterR.setLevel(audioProcessor.getInputRmsValue(1));
     InputMeterL.repaint();
     InputMeterR.repaint();
 
-    OutputMeterL.setLevel(audioProcessor.getRmsValue(0));
-    OutputMeterR.setLevel(audioProcessor.getRmsValue(1));
+    OutputMeterL.setLevel(audioProcessor.getOutputRmsValue(0));
+    OutputMeterR.setLevel(audioProcessor.getOutputRmsValue(1));
     OutputMeterL.repaint();
     OutputMeterR.repaint();
 }
@@ -92,9 +92,9 @@ void _7Band_ParametricEQAudioProcessorEditor::resized()
     phaseInvertButton.setBounds(362, 744, 25, 25); //346, 746
 
     InputMeterL.setBounds(315, 370, 20, 240);
-    InputMeterR.setBounds(345, 370, 20, 240);
-    OutputMeterL.setBounds(385, 370, 20, 240);
-    OutputMeterR.setBounds(415, 370, 20, 240);
+    InputMeterR.setBounds(345, 370, 20, 240); 
+    OutputMeterL.setBounds(385, 370, 20, 240);  
+    OutputMeterR.setBounds(415, 370, 20, 240); 
 
     lowCutFreqSlider.setBounds(294, 18, 75, 75); //303, 27
     lowCutSlopeSlider.setBounds(294, 111, 75, 75); //303, 121

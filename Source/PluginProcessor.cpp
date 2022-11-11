@@ -97,6 +97,18 @@ void _7Band_ParametricEQAudioProcessor::prepareToPlay (double sampleRate, int sa
     rightChain.prepare(spec);
 
     updateAllFilters();
+
+    InputLevelL.reset(sampleRate, 0.5);
+    InputLevelR.reset(sampleRate, 0.5);
+    InputLevelL.setCurrentAndTargetValue(-100.f);
+    InputLevelR.setCurrentAndTargetValue(-100.f);
+
+
+    OutputLevelL.reset(sampleRate, 0.5);
+    OutputLevelR.reset(sampleRate, 0.5);
+    OutputLevelL.setCurrentAndTargetValue(-100.f);
+    OutputLevelR.setCurrentAndTargetValue(-100.f);
+
 }
 
 void _7Band_ParametricEQAudioProcessor::releaseResources()
@@ -134,9 +146,9 @@ bool _7Band_ParametricEQAudioProcessor::isBusesLayoutSupported (const BusesLayou
 void _7Band_ParametricEQAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
     juce::ScopedNoDenormals noDenormals;
+    
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
-
 
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
@@ -155,9 +167,26 @@ void _7Band_ParametricEQAudioProcessor::processBlock (juce::AudioBuffer<float>& 
     {
         buffer.applyGain(rawInputGain * -1.0);
     }
+
+    InputLevelL.skip(buffer.getNumSamples());
+    InputLevelR.skip(buffer.getNumSamples());
+    {
+        const auto value = juce::Decibels::gainToDecibels(buffer.getRMSLevel(0, 0, buffer.getNumSamples()));
+        if (value < InputLevelL.getCurrentValue())
+            InputLevelL.setTargetValue(value);
+        else
+            InputLevelL.setCurrentAndTargetValue(value);
+    }
+    {
+        const auto value = juce::Decibels::gainToDecibels(buffer.getRMSLevel(1, 0, buffer.getNumSamples()));
+        if (value < InputLevelR.getCurrentValue())
+            InputLevelR.setTargetValue(value);
+        else
+            InputLevelR.setCurrentAndTargetValue(value);
+    }
+
     updateAllFilters();
-    buffer.applyGain(rawOutputGain);
-    
+
     juce::dsp::AudioBlock<float> block(buffer);
 
     auto leftBlock = block.getSingleChannelBlock(0);
@@ -168,6 +197,24 @@ void _7Band_ParametricEQAudioProcessor::processBlock (juce::AudioBuffer<float>& 
 
     leftChain.process(leftContext);
     rightChain.process(rightContext);
+
+    buffer.applyGain(rawOutputGain);
+    OutputLevelL.skip(buffer.getNumSamples());
+    OutputLevelR.skip(buffer.getNumSamples());
+    {
+        const auto value = juce::Decibels::gainToDecibels(buffer.getRMSLevel(0, 0, buffer.getNumSamples()));
+        if (value < OutputLevelL.getCurrentValue())
+            OutputLevelL.setTargetValue(value);
+        else
+            OutputLevelL.setCurrentAndTargetValue(value);
+    }
+    {
+        const auto value = juce::Decibels::gainToDecibels(buffer.getRMSLevel(1, 0, buffer.getNumSamples()));
+        if (value < OutputLevelR.getCurrentValue())
+            OutputLevelR.setTargetValue(value);
+        else
+            OutputLevelR.setCurrentAndTargetValue(value);
+    }
 }
 
 //==============================================================================
@@ -507,6 +554,19 @@ juce::AudioProcessorValueTreeState::ParameterLayout _7Band_ParametricEQAudioProc
                                                                 false));
 
     return parameter;
+}
+
+float _7Band_ParametricEQAudioProcessor::getRmsValue(const int channel) const
+{
+    jassert(channel == 0 || channel == 1);
+    if (channel == 0)
+        return InputLevelL.getCurrentValue();
+        return OutputLevelR.getCurrentValue();
+    if (channel == 1)
+        return InputLevelR.getCurrentValue();
+        return OutputLevelL.getCurrentValue();
+
+    return 0.0f;
 }
 
 //==============================================================================

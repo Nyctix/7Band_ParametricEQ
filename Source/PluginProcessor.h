@@ -80,6 +80,8 @@ public:
     static juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
     juce::AudioProcessorValueTreeState ParaEQ {*this, nullptr, "Parameters", createParameterLayout() };
 
+    float getRmsValue(const int channel) const;
+
 private:
     using Filter = juce::dsp::IIR::Filter<float>;
     using CutFilter = juce::dsp::ProcessorChain<Filter, Filter, Filter, Filter, Filter, Filter>;
@@ -151,6 +153,9 @@ private:
     void updateHighCutFilter(const ChainSettings& chainSettings);
 
     void updateAllFilters();
+
+    juce::LinearSmoothedValue<float> InputLevelL, InputLevelR;
+    juce::LinearSmoothedValue<float> OutputLevelL, OutputLevelR;
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (_7Band_ParametricEQAudioProcessor)

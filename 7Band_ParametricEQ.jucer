@@ -9,6 +9,9 @@
       <FILE id="N5zDg6" name="RoughLayout.png" compile="0" resource="1" file="Assets/RoughLayout.png"/>
     </GROUP>
     <GROUP id="{87DEF29F-875B-A393-5A09-EA3633FAC614}" name="Source">
+      <GROUP id="{D95B059E-B2CC-6BD9-6B8F-CE90DAA21F24}" name="Components">
+        <FILE id="JqkCNp" name="WhiteMeter.h" compile="0" resource="0" file="Source/Components/WhiteMeter.h"/>
+      </GROUP>
       <FILE id="MgaNVE" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="ZqATc4" name="PluginProcessor.h" compile="0" resource="0"

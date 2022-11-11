@@ -16,8 +16,7 @@ _7Band_ParametricEQAudioProcessorEditor::_7Band_ParametricEQAudioProcessorEditor
 
     //Parameter Attachments - Input, Output & Phase
     inputGainSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ, "Input Gain", inputGainSlider);
-    outputGainSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ, "Output Gain", 
-                                                                                                        outputGainSlider);
+    outputGainSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ, "Output Gain", outputGainSlider);
     phaseInvertButtonAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(audioProcessor.ParaEQ, "Phase", phaseInvertButton);
 
     //Parameter Attachments - LowCut Filter
@@ -55,10 +54,27 @@ _7Band_ParametricEQAudioProcessorEditor::_7Band_ParametricEQAudioProcessorEditor
     lowMidGainSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ, "LowMid Gain", lowMidGainSlider);
     lowMidQSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ, "LowMid Quality", lowMidQSlider);
     lowMidBypassButtonAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(audioProcessor.ParaEQ, "LowMid Bypass", lowMidBypassButton);
+
+
+    //StartTimer for Meter Refreshing
+    startTimerHz(60);
 }
 
 _7Band_ParametricEQAudioProcessorEditor::~_7Band_ParametricEQAudioProcessorEditor()
 {
+}
+
+void _7Band_ParametricEQAudioProcessorEditor::timerCallback()
+{
+    InputMeterL.setLevel(audioProcessor.getRmsValue(0));
+    InputMeterR.setLevel(audioProcessor.getRmsValue(1));
+    InputMeterL.repaint();
+    InputMeterR.repaint();
+
+    OutputMeterL.setLevel(audioProcessor.getRmsValue(0));
+    OutputMeterR.setLevel(audioProcessor.getRmsValue(1));
+    OutputMeterL.repaint();
+    OutputMeterR.repaint();
 }
 
 //==============================================================================
@@ -74,6 +90,11 @@ void _7Band_ParametricEQAudioProcessorEditor::resized()
     inputGainSlider.setBounds(337, 262, 75, 75); //346, 271
     outputGainSlider.setBounds(337, 652, 75, 75); //346, 661
     phaseInvertButton.setBounds(362, 744, 25, 25); //346, 746
+
+    InputMeterL.setBounds(315, 370, 20, 240);
+    InputMeterR.setBounds(345, 370, 20, 240);
+    OutputMeterL.setBounds(385, 370, 20, 240);
+    OutputMeterR.setBounds(415, 370, 20, 240);
 
     lowCutFreqSlider.setBounds(294, 18, 75, 75); //303, 27
     lowCutSlopeSlider.setBounds(294, 111, 75, 75); //303, 121
@@ -113,6 +134,11 @@ std::vector<juce::Component*> _7Band_ParametricEQAudioProcessorEditor::getCompon
         &inputGainSlider,
         &outputGainSlider,
         &phaseInvertButton,
+
+        &InputMeterL,
+        &InputMeterR,
+        &OutputMeterL,
+        &OutputMeterR,
 
         &lowCutFreqSlider,
         &lowCutSlopeSlider,

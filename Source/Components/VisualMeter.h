@@ -1,53 +1,93 @@
 #pragma once
-
 #include <JuceHeader.h>
 
 namespace Gui
 {
+	class Bulb : public juce::Component
+	{
+	public:
+		Bulb(const juce::Colour& c) : colour(c) {}
+		void paint(juce::Graphics& g) override
+		{
+			if (isOn)
+			{
+				g.setColour(colour);
+
+			}
+			else
+			{
+				g.setColour(juce::Colours::black);
+			}
+			const auto delta = 4.f;
+			const auto bounds = getLocalBounds().toFloat().reduced(delta);
+			const auto side = juce::jmin(bounds.getWidth(), bounds.getHeight());
+			const auto bulbFillBounds = juce::Rectangle<float>{ bounds.getX(), bounds.getY(), side, side };
+			g.fillEllipse(bulbFillBounds);
+			g.setColour(juce::Colours::black);
+			g.drawEllipse(bulbFillBounds, 1.f);
+			if (isOn)
+			{
+				g.setGradientFill(juce::ColourGradient
+					{ 
+						colour.withAlpha(0.3f), 
+						bulbFillBounds.getCentre(), 
+						colour.withLightness(1.5f).withAlpha(0.f), 
+						{}, 
+						true 
+					});
+				g.fillEllipse(bulbFillBounds.expanded(delta));
+			}
+
+		}
+		void setState(const bool state) { isOn = state; }
+	private:
+		bool isOn = false;
+		juce::Colour colour{};
+	};
+
 	class VisualMeter : public juce::Component, public juce::Timer
 	{
 	public:
-		VisualMeter(std::function<float()>&& valuefunction) : valueSupplier(std::move(valuefunction))
+		VisualMeter(std::function<float()>&& valueFunction) : valueSupplier(std::move(valueFunction))
 		{
 			startTimerHz(60);
-			grill = juce::ImageCache::getFromMemory(BinaryData::MeterGrill_png, BinaryData::MeterGrill_pngSize);
 		}
 
 		void paint(juce::Graphics& g) override
 		{
-			const auto level = valueSupplier();
-			auto bounds = getLocalBounds().toFloat().reduced(2.f);
-			//For Gradient Meter
-			g.setColour(juce::Colours::black);
-			g.fillRect(bounds);
-
-			g.setGradientFill(gradient);
-
-			const auto scaledY = juce::jmap(level, -60.f, 6.0f, 0.f, static_cast<float>(getHeight()));
-			g.fillRect(bounds.removeFromBottom(scaledY));
-		}
-
-		void paintOverChildren(juce::Graphics& g) override
-		{
-			g.drawImage(grill, getLocalBounds().toFloat());
+			const auto value = juce::jmap(valueSupplier(), -60.f, 6.f, 0.f, 1.f);
+			for (auto i = 0; i < totalNumberOfBulbs; i++)
+			{
+				if (value >= static_cast<float>(i + 1) / totalNumberOfBulbs)
+					bulbs[i]->setState(true);
+				else
+					bulbs[i]->setState(false);
+			}
 		}
 
 		void resized() override
 		{
 			const auto bounds = getLocalBounds().toFloat();
-			gradient = juce::ColourGradient
-			{
-				juce::Colours::darkgreen,
-				bounds.getBottomLeft(),
-				juce::Colours::red,
-				bounds.getTopLeft(),
-				false
+			juce::ColourGradient gradient
+			{ 
+				juce::Colours::green, 
+				bounds.getBottomLeft(), 
+				juce::Colours::red, 
+				bounds.getTopLeft(), 
+				false 
 			};
-			gradient.addColour(0.2, juce::Colours::green);
-			gradient.addColour(0.4, juce::Colours::greenyellow);
 			gradient.addColour(0.5, juce::Colours::yellow);
-			gradient.addColour(0.7, juce::Colours::orange);
-			gradient.addColour(0.9, juce::Colours::orangered);
+
+			const auto bulbHeight = getLocalBounds().getHeight() / totalNumberOfBulbs;
+			auto bulbBounds = getLocalBounds();
+			bulbs.clear();
+			for (auto i = 0; i < totalNumberOfBulbs; i++)
+			{
+				auto bulb = std::make_unique<Bulb>(gradient.getColourAtPosition(static_cast<double>(i) / totalNumberOfBulbs));
+				addAndMakeVisible(bulb.get());
+				bulb->setBounds(bulbBounds.removeFromBottom(bulbHeight));
+				bulbs.push_back(std::move(bulb));
+			}
 		}
 
 		void timerCallback() override
@@ -57,8 +97,7 @@ namespace Gui
 
 	private:
 		std::function<float()> valueSupplier;
-		juce::ColourGradient gradient{};
-		juce::Image grill;
-
+		std::vector<std::unique_ptr<Bulb>> bulbs;
+		const int totalNumberOfBulbs = 10;
 	};
 }

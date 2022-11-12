@@ -79,10 +79,10 @@ void _7Band_ParametricEQAudioProcessorEditor::resized()
     outputGainSlider.setBounds(337, 652, 75, 75); //346, 661
     phaseInvertButton.setBounds(362, 744, 25, 25); //346, 746
 
-    InputMeterL.setBounds(315, 370, 20, 240);
-    InputMeterR.setBounds(345, 370, 20, 240); 
-    OutputMeterL.setBounds(385, 370, 20, 240);  
-    OutputMeterR.setBounds(415, 370, 20, 240); 
+    InputMeterL.setBounds(300, 370, 30, 240);
+    InputMeterR.setBounds(335, 370, 30, 240); 
+    OutputMeterL.setBounds(385, 370, 30, 240);  
+    OutputMeterR.setBounds(420, 370, 30, 240); 
 
     lowCutFreqSlider.setBounds(294, 18, 75, 75); //303, 27
     lowCutSlopeSlider.setBounds(294, 111, 75, 75); //303, 121

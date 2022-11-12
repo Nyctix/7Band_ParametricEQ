@@ -3,7 +3,7 @@
 
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
-#include "Components/WhiteMeter.h"
+#include "Components/VisualMeter.h"
 
 struct CustomRotarySlider : juce::Slider
 {
@@ -17,22 +17,22 @@ struct CustomRotarySlider : juce::Slider
 
 //==============================================================================
 
-class _7Band_ParametricEQAudioProcessorEditor  : public juce::AudioProcessorEditor, public juce::Timer
+class _7Band_ParametricEQAudioProcessorEditor  : public juce::AudioProcessorEditor //public juce::Timer
 {
 public:
     _7Band_ParametricEQAudioProcessorEditor (_7Band_ParametricEQAudioProcessor&);
     ~_7Band_ParametricEQAudioProcessorEditor() override;
 
     //==============================================================================
-    void timerCallback() override;
+    //void timerCallback() override;
     void paint (juce::Graphics&) override;
     void resized() override;
 
 private:
     _7Band_ParametricEQAudioProcessor& audioProcessor;
 
-    Gui::WhiteMeter InputMeterL, InputMeterR;
-    Gui::WhiteMeter OutputMeterL, OutputMeterR;
+    Gui::VisualMeter InputMeterL, InputMeterR;
+    Gui::VisualMeter OutputMeterL, OutputMeterR;
 
     // Sliders/Knobs
     CustomRotarySlider

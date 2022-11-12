@@ -5,7 +5,12 @@
 
 //==============================================================================
 _7Band_ParametricEQAudioProcessorEditor::_7Band_ParametricEQAudioProcessorEditor (_7Band_ParametricEQAudioProcessor& p)
-    : AudioProcessorEditor (&p), audioProcessor (p)
+    : AudioProcessorEditor (&p), audioProcessor (p),
+    //Lamda Function for Callback
+    InputMeterL([&]() {return audioProcessor.getInputRmsValue(0); }),
+    InputMeterR([&]() {return audioProcessor.getInputRmsValue(1); }),
+    OutputMeterL([&]() {return audioProcessor.getOutputRmsValue(0); }),
+    OutputMeterR([&]() {return audioProcessor.getOutputRmsValue(1); })
 {
     for (auto* componenet : getComponents())
     {
@@ -54,27 +59,10 @@ _7Band_ParametricEQAudioProcessorEditor::_7Band_ParametricEQAudioProcessorEditor
     lowMidGainSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ, "LowMid Gain", lowMidGainSlider);
     lowMidQSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.ParaEQ, "LowMid Quality", lowMidQSlider);
     lowMidBypassButtonAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(audioProcessor.ParaEQ, "LowMid Bypass", lowMidBypassButton);
-
-
-    //StartTimer for Meter Refreshing
-    startTimerHz(60);
 }
 
 _7Band_ParametricEQAudioProcessorEditor::~_7Band_ParametricEQAudioProcessorEditor()
 {
-}
-
-void _7Band_ParametricEQAudioProcessorEditor::timerCallback()
-{
-    InputMeterL.setLevel(audioProcessor.getInputRmsValue(0));
-    InputMeterR.setLevel(audioProcessor.getInputRmsValue(1));
-    InputMeterL.repaint();
-    InputMeterR.repaint();
-
-    OutputMeterL.setLevel(audioProcessor.getOutputRmsValue(0));
-    OutputMeterR.setLevel(audioProcessor.getOutputRmsValue(1));
-    OutputMeterL.repaint();
-    OutputMeterR.repaint();
 }
 
 //==============================================================================

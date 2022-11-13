@@ -23,8 +23,8 @@ struct ChainSettings
     bool phase{ false };
     bool highShelfToBell{ false }, lowShelfToBell{ false };
     bool lowCutBypassed{ false }, highCutBypassed{ false },
-            highShelfBypassed{ false }, lowShelfBypassed{ false },
-            highMidBypassed{ false }, lowMidBypassed{ false };
+         highShelfBypassed{ false }, lowShelfBypassed{ false },
+         highMidBypassed{ false }, lowMidBypassed{ false };
 
     Slope lowCutSlope{ Slope::Slope_12 }, highCutSlope{ Slope::Slope_12 };
 };
@@ -105,7 +105,6 @@ private:
     void updateHighMidFilter(const ChainSettings& chainSettings);
     void updateLowMidFilter(const ChainSettings& chainSettings);
     void updateLowShelfFilter(const ChainSettings& chainSettings);
-
 
     //updating Fiter Coefficients
     using Coefficients = Filter::CoefficientsPtr;

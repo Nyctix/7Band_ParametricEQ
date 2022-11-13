@@ -13,7 +13,8 @@ _7Band_ParametricEQAudioProcessor::_7Band_ParametricEQAudioProcessor()
                       #endif
                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                      #endif
-                       ), ParaEQ(*this,nullptr, "Parameters", createParameterLayout())
+                       ), 
+    ParaEQ(*this,nullptr, "Parameters", createParameterLayout())
 #endif
 {
 }
@@ -62,8 +63,7 @@ double _7Band_ParametricEQAudioProcessor::getTailLengthSeconds() const
 
 int _7Band_ParametricEQAudioProcessor::getNumPrograms()
 {
-    return 1;   // NB: some hosts don't cope very well if you tell them there are 0 programs,
-                // so this should be at least 1, even if you're not really implementing programs.
+    return 1;
 }
 
 int _7Band_ParametricEQAudioProcessor::getCurrentProgram()
@@ -111,8 +111,7 @@ void _7Band_ParametricEQAudioProcessor::prepareToPlay (double sampleRate, int sa
 
 void _7Band_ParametricEQAudioProcessor::releaseResources()
 {
-    // When playback stops, you can use this as an opportunity to free up any
-    // spare memory, etc.
+
 }
 
 #ifndef JucePlugin_PreferredChannelConfigurations
@@ -122,10 +121,7 @@ bool _7Band_ParametricEQAudioProcessor::isBusesLayoutSupported (const BusesLayou
     juce::ignoreUnused (layouts);
     return true;
   #else
-    // This is the place where you check if the layout is supported.
-    // In this template code we only support mono or stereo.
-    // Some plugin hosts, such as certain GarageBand versions, will only
-    // load plugins that support stereo bus layouts.
+
     if (layouts.getMainOutputChannelSet() != juce::AudioChannelSet::mono()
      && layouts.getMainOutputChannelSet() != juce::AudioChannelSet::stereo())
         return false;
@@ -218,7 +214,7 @@ void _7Band_ParametricEQAudioProcessor::processBlock (juce::AudioBuffer<float>& 
 //==============================================================================
 bool _7Band_ParametricEQAudioProcessor::hasEditor() const
 {
-    return true; // (change this to false if you choose to not supply an editor)
+    return true; 
 }
 
 juce::AudioProcessorEditor* _7Band_ParametricEQAudioProcessor::createEditor()
@@ -379,8 +375,8 @@ void _7Band_ParametricEQAudioProcessor::updateLowShelfFilter(const ChainSettings
 void _7Band_ParametricEQAudioProcessor::updateLowCutFilter(const ChainSettings& chainSettings)
 {
     auto LowCutCoefficients = juce::dsp::FilterDesign<float>::designIIRHighpassHighOrderButterworthMethod(chainSettings.lowCutFrequency,
-                                                                                                            getSampleRate(),
-                                                                                                            2 * (chainSettings.lowCutSlope + 1));
+                                                                                                          getSampleRate(),
+                                                                                                          2 * (chainSettings.lowCutSlope + 1));
     auto& leftLowCut = leftChain.get<ChainPositions::LowCut>();
     auto& rightLowCut = rightChain.get<ChainPositions::LowCut>();
 
@@ -395,8 +391,8 @@ void _7Band_ParametricEQAudioProcessor::updateLowCutFilter(const ChainSettings& 
 void _7Band_ParametricEQAudioProcessor::updateHighCutFilter(const ChainSettings& chainSettings)
 {
     auto highCutCoefficients = juce::dsp::FilterDesign<float>::designIIRLowpassHighOrderButterworthMethod(chainSettings.highCutFrequency,
-                                                                                                            getSampleRate(),
-                                                                                                            2 * (chainSettings.highCutSlope + 1));
+                                                                                                          getSampleRate(),
+                                                                                                          2 * (chainSettings.highCutSlope + 1));
     auto& leftHighCut = leftChain.get<ChainPositions::HighCut>();
     auto& rightHighCut = rightChain.get<ChainPositions::HighCut>();
 
@@ -427,7 +423,6 @@ void _7Band_ParametricEQAudioProcessor::updateAllFilters()
     updateLowMidFilter(chainSettings);
     updateLowShelfFilter(chainSettings);
 }
-
 
 //==============================================================================
 //Parameter Layout
@@ -561,7 +556,6 @@ float _7Band_ParametricEQAudioProcessor::getInputRmsValue(const int channel) con
         return InputLevelL.getCurrentValue();
     if (channel == 1)
         return InputLevelR.getCurrentValue();
-
     return 0.0f;
 }
 
@@ -572,7 +566,6 @@ float _7Band_ParametricEQAudioProcessor::getOutputRmsValue(const int channel) co
         return OutputLevelL.getCurrentValue();
     if (channel == 1)
         return OutputLevelR.getCurrentValue();
-
     return 0.0f;
 }
 

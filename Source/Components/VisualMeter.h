@@ -21,7 +21,13 @@ namespace Gui
 			const auto delta = 4.f;
 			const auto bounds = getLocalBounds().toFloat().reduced(delta);
 			const auto side = juce::jmin(bounds.getWidth(), bounds.getHeight());
-			const auto bulbFillBounds = juce::Rectangle<float>{ bounds.getX(), bounds.getY(), side, side };
+			const auto bulbFillBounds = juce::Rectangle<float>
+			{ 
+				bounds.getX(),
+				bounds.getY(), 
+				side, 
+				side
+			};
 			g.fillEllipse(bulbFillBounds);
 			g.setColour(juce::Colours::black);
 			g.drawEllipse(bulbFillBounds, 1.f);
@@ -37,7 +43,6 @@ namespace Gui
 					});
 				g.fillEllipse(bulbFillBounds.expanded(delta));
 			}
-
 		}
 		void setState(const bool state) { isOn = state; }
 	private:

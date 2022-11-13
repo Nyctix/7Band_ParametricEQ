@@ -55,7 +55,7 @@ namespace Gui
 
 		void paint(juce::Graphics& g) override
 		{
-			const auto value = juce::jmap(valueSupplier(), -60.f, 6.f, 0.f, 1.f);
+			const auto value = juce::jmap(valueSupplier(), -60.f, 5.f, 0.f, 1.f);
 			for (auto i = 0; i < totalNumberOfBulbs; i++)
 			{
 				if (value >= static_cast<float>(i + 1) / totalNumberOfBulbs)

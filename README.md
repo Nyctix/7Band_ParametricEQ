@@ -1,5 +1,6 @@
 # 7 Band Parametric Equalizer
 This is a 7 Band Parametric Audio Equalizer made using the JUCE Framework.
+![CurrentGUI](https://user-images.githubusercontent.com/82029952/208364017-c0973679-2aa2-4d5e-b6a8-26b9abe8a9cd.JPG)
 
 #### Intallers
 - Windows (VST3)

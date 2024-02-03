@@ -12,3 +12,7 @@ This is a 7 Band Parametric Audio Equalizer made using the JUCE Framework.
 - JUCE Framework 7.0.2 Release
 - C++ 17 Compiler
 - IDE (Visual Code Studio or XCode)
+
+#### Download Links:
+- VST: https://drive.google.com/file/d/13snv2OvIBkOqWdeyraR6I_LX9_sAItfA/view?usp=drive_link
+- AU: https://drive.google.com/file/d/1uGvQgpVlgDNx36yIGX62K7bDKoioJafR/view?usp=drive_link

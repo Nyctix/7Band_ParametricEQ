@@ -2,7 +2,7 @@
 
 <JUCERPROJECT id="FDi2xt" name="7Band_ParametricEQ" projectType="audioplug"
               useAppConfig="0" addUsingNamespaceToJuceHeader="0" displaySplashScreen="1"
-              jucerFormatVersion="1" companyName="Joel's Plugins" pluginFormats="buildAAX,buildAU,buildStandalone,buildVST3"
+              jucerFormatVersion="1" companyName="Joel's Plugins" pluginFormats="buildAU,buildStandalone,buildVST3"
               cppLanguageStandard="17" pluginAAXCategory="1" pluginVST3Category="EQ">
   <MAINGROUP id="IZTgLz" name="7Band_ParametricEQ">
     <GROUP id="{47383CC2-9291-AF42-5466-C819EB98262F}" name="Assets">

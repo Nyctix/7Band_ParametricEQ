@@ -73,7 +73,7 @@ void _7Band_ParametricEQAudioProcessorEditor::paint (juce::Graphics& g)
 
 void _7Band_ParametricEQAudioProcessorEditor::resized()
 {
-    auto totalArea = getLocalBounds(); // (pos x, pos y, size width, size height) = diff: 9, 9
+    //auto totalArea = getLocalBounds(); // (pos x, pos y, size width, size height) = diff: 9, 9
 
     inputGainSlider.setBounds(337, 262, 75, 75); //346, 271
     outputGainSlider.setBounds(337, 652, 75, 75); //346, 661

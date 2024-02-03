@@ -431,17 +431,17 @@ juce::AudioProcessorValueTreeState::ParameterLayout _7Band_ParametricEQAudioProc
     juce::AudioProcessorValueTreeState::ParameterLayout parameter;
 
     //Gain Parameters ----------------------------------------------------------
-    parameter.add(std::make_unique<juce::AudioParameterFloat>("Input Gain",
+    parameter.add(std::make_unique<juce::AudioParameterFloat>(juce::ParameterID("Input Gain", 1),
                                                                 "Input Gain",
                                                                 juce::NormalisableRange<float>(-15.0f, 15.0f, 1.0f, 1.0f),
                                                                 0.0f));
-    parameter.add(std::make_unique<juce::AudioParameterFloat>("Output Gain",
-                                                                "Output Gain",
-                                                                juce::NormalisableRange<float>(-15.0f, 15.0f, 1.0f, 1.0f),
+    parameter.add(std::make_unique<juce::AudioParameterFloat>(juce::ParameterID("Output Gain", 1),
+                                                              "Output Gain",
+                                                              juce::NormalisableRange<float>(-15.0f, 15.0f, 1.0f, 1.0f),
                                                                 0.0f));
-    parameter.add(std::make_unique<juce::AudioParameterBool>("Phase",
-                                                                "Phase",
-                                                                false));
+    parameter.add(std::make_unique<juce::AudioParameterBool>(juce::ParameterID("Phase", 1),
+                                                             "Phase",
+                                                             false));
     //HighCut & LowCut Slope Values --------------------------------------------------------------------------------------
     juce::StringArray slopeArray;
     for (int i = 0; i < 4; ++i)
@@ -452,99 +452,99 @@ juce::AudioProcessorValueTreeState::ParameterLayout _7Band_ParametricEQAudioProc
         slopeArray.add(strSlope);
     }
     //LowCut Filter ----------------------------------------------------------------------------------------
-    parameter.add(std::make_unique<juce::AudioParameterFloat>("LowCut Frequency",
-                                                                "LowCut Frequency",
-                                                                juce::NormalisableRange<float>(15.0f, 350.0f, 1.0f, 1.0f),
-                                                                15.0f));
-    parameter.add(std::make_unique<juce::AudioParameterChoice>("LowCut Slope",
-                                                                "LowCut Slope",
-                                                                slopeArray,
-                                                                0));
-    parameter.add(std::make_unique<juce::AudioParameterBool>("LowCut Bypass",
-                                                                "LowCut Bypass",
-                                                                true));
+    parameter.add(std::make_unique<juce::AudioParameterFloat>(juce::ParameterID("LowCut Frequency", 1),
+                                                              "LowCut Frequency",
+                                                              juce::NormalisableRange<float>(15.0f, 350.0f, 1.0f, 1.0f),
+                                                              15.0f));
+    parameter.add(std::make_unique<juce::AudioParameterChoice>(juce::ParameterID("LowCut Slope", 1),
+                                                               "LowCut Slope",
+                                                               slopeArray,
+                                                               0));
+    parameter.add(std::make_unique<juce::AudioParameterBool>(juce::ParameterID("LowCut Bypass", 1),
+                                                             "LowCut Bypass",
+                                                             true));
     //HighCut Filter ---------------------------------------------------------------------------------------
-    parameter.add(std::make_unique<juce::AudioParameterFloat>("HighCut Frequency",
-                                                               "HighCut Frequency",
-                                                                juce::NormalisableRange<float>(3000.0f, 22000.0f, 100.0f, 1.0f),
-                                                                22000.0f));
-    parameter.add(std::make_unique<juce::AudioParameterChoice>("HighCut Slope",
-                                                                "HighCut Slope",
-                                                                slopeArray,
-                                                                0));
-    parameter.add(std::make_unique<juce::AudioParameterBool>("HighCut Bypass",
-                                                                "HighCut Bypass",
-                                                                true));
+    parameter.add(std::make_unique<juce::AudioParameterFloat>(juce::ParameterID("HighCut Frequency", 1),
+                                                              "HighCut Frequency",
+                                                              juce::NormalisableRange<float>(3000.0f, 22000.0f, 100.0f, 1.0f),
+                                                              22000.0f));
+    parameter.add(std::make_unique<juce::AudioParameterChoice>(juce::ParameterID("HighCut Slope", 1),
+                                                               "HighCut Slope",
+                                                               slopeArray,
+                                                               0));
+    parameter.add(std::make_unique<juce::AudioParameterBool>(juce::ParameterID("HighCut Bypass", 1),
+                                                             "HighCut Bypass",
+                                                             true));
     //HighShelf Filter -------------------------------------------------------------------------------------
-    parameter.add(std::make_unique<juce::AudioParameterFloat>("HighShelf Frequency",
-                                                                "HighShelf Frequency",
-                                                                juce::NormalisableRange<float>(1500.0f, 16000.0f, 10.0f, 1.0f),
-                                                                8000.0f));
-    parameter.add(std::make_unique<juce::AudioParameterFloat>("HighShelf Quality",
-                                                                "HighShelf Quality",
-                                                                juce::NormalisableRange<float>(0.1f, 3.5f, 0.01f, 1.0f),
-                                                                1.0f));
-    parameter.add(std::make_unique<juce::AudioParameterFloat>("HighShelf Gain",
-                                                                "HighShelf Gain",
-                                                                juce::NormalisableRange<float>(-15.0f, 15.0f, 0.1f, 1.0f),
-                                                                0.0f));
-    parameter.add(std::make_unique<juce::AudioParameterBool>("HighShelf Bypass",
-                                                                "HighShelf Bypass",
-                                                                true));
-    parameter.add(std::make_unique<juce::AudioParameterBool>("HighShelf to Bell",
-                                                                "HighShelf to Bell",
-                                                                false));
+    parameter.add(std::make_unique<juce::AudioParameterFloat>(juce::ParameterID("HighShelf Frequency", 1),
+                                                              "HighShelf Frequency",
+                                                              juce::NormalisableRange<float>(1500.0f, 16000.0f, 10.0f, 1.0f),
+                                                              8000.0f));
+    parameter.add(std::make_unique<juce::AudioParameterFloat>(juce::ParameterID("HighShelf Quality", 1),
+                                                              "HighShelf Quality",
+                                                              juce::NormalisableRange<float>(0.1f, 3.5f, 0.01f, 1.0f),
+                                                              1.0f));
+    parameter.add(std::make_unique<juce::AudioParameterFloat>(juce::ParameterID("HighShelf Gain", 1),
+                                                              "HighShelf Gain",
+                                                              juce::NormalisableRange<float>(-15.0f, 15.0f, 0.1f, 1.0f),
+                                                              0.0f));
+    parameter.add(std::make_unique<juce::AudioParameterBool>(juce::ParameterID("HighShelf Bypass", 1),
+                                                             "HighShelf Bypass",
+                                                             true));
+    parameter.add(std::make_unique<juce::AudioParameterBool>(juce::ParameterID("HighShelf to Bell", 1),
+                                                             "HighShelf to Bell",
+                                                             false));
     //HighMidPeak Filter -------------------------------------------------------------------------------------
-    parameter.add(std::make_unique<juce::AudioParameterFloat>("HighMid Frequency",
-                                                                "HighMid Frequency",
-                                                                juce::NormalisableRange<float>(600.0f, 7000.0f, 10.0f, 1.0f),
-                                                                3500.0f));
-    parameter.add(std::make_unique<juce::AudioParameterFloat>("HighMid Quality",
-                                                                "HighMid Quality",
-                                                                juce::NormalisableRange<float>(0.1f, 3.5f, 0.01f, 1.0f),
-                                                                1.0f));
-    parameter.add(std::make_unique<juce::AudioParameterFloat>("HighMid Gain",
-                                                                "HighMid Gain",
-                                                                juce::NormalisableRange<float>(-15.0f, 15.0f, 0.1f, 1.0f),
-                                                                0.0f));
-    parameter.add(std::make_unique<juce::AudioParameterBool>("HighMid Bypass",
-                                                                "HighMid Bypass",
-                                                                true));
+    parameter.add(std::make_unique<juce::AudioParameterFloat>(juce::ParameterID("HighMid Frequency", 1),
+                                                              "HighMid Frequency",
+                                                              juce::NormalisableRange<float>(600.0f, 7000.0f, 10.0f, 1.0f),
+                                                              3500.0f));
+    parameter.add(std::make_unique<juce::AudioParameterFloat>(juce::ParameterID("HighMid Quality", 1),
+                                                              "HighMid Quality",
+                                                              juce::NormalisableRange<float>(0.1f, 3.5f, 0.01f, 1.0f),
+                                                              1.0f));
+    parameter.add(std::make_unique<juce::AudioParameterFloat>(juce::ParameterID("HighMid Gain", 1),
+                                                              "HighMid Gain",
+                                                              juce::NormalisableRange<float>(-15.0f, 15.0f, 0.1f, 1.0f),
+                                                              0.0f));
+    parameter.add(std::make_unique<juce::AudioParameterBool>(juce::ParameterID("HighMid Bypass", 1),
+                                                             "HighMid Bypass",
+                                                             true));
     //LowMidPeak Filter --------------------------------------------------------------------------------------
-    parameter.add(std::make_unique<juce::AudioParameterFloat>("LowMid Frequency",
-                                                                "LowMid Frequency",
-                                                                juce::NormalisableRange<float>(200.0f, 2500.0f, 10.0f, 1.0f),
-                                                                500.0f));
-    parameter.add(std::make_unique<juce::AudioParameterFloat>("LowMid Quality",
-                                                                "LowMid Quality",
-                                                                juce::NormalisableRange<float>(0.1f, 3.5f, 0.01f, 1.0f),
-                                                                1.0f));
-    parameter.add(std::make_unique<juce::AudioParameterFloat>("LowMid Gain",
-                                                                "LowMid Gain",
-                                                                juce::NormalisableRange<float>(-15.0f, 15.0f, 0.1f, 1.0f),
-                                                                0.0f));
-    parameter.add(std::make_unique<juce::AudioParameterBool>("LowMid Bypass",
-                                                                "LowMid Bypass",
-                                                                true));
+    parameter.add(std::make_unique<juce::AudioParameterFloat>(juce::ParameterID("LowMid Frequency", 1),
+                                                              "LowMid Frequency",
+                                                              juce::NormalisableRange<float>(200.0f, 2500.0f, 10.0f, 1.0f),
+                                                              500.0f));
+    parameter.add(std::make_unique<juce::AudioParameterFloat>(juce::ParameterID("LowMid Quality", 1),
+                                                              "LowMid Quality",
+                                                              juce::NormalisableRange<float>(0.1f, 3.5f, 0.01f, 1.0f),
+                                                              1.0f));
+    parameter.add(std::make_unique<juce::AudioParameterFloat>(juce::ParameterID("LowMid Gain", 1),
+                                                              "LowMid Gain",
+                                                              juce::NormalisableRange<float>(-15.0f, 15.0f, 0.1f, 1.0f),
+                                                              0.0f));
+    parameter.add(std::make_unique<juce::AudioParameterBool>(juce::ParameterID("LowMid Bypass", 1),
+                                                             "LowMid Bypass",
+                                                             true));
     //LowShelf Filter --------------------------------------------------------------------------------------
-    parameter.add(std::make_unique<juce::AudioParameterFloat>("LowShelf Frequency",
-                                                                "LowShelf Frequency",
-                                                                juce::NormalisableRange<float>(30.0f, 450.0f, 1.0f, 1.0f),
-                                                                60.f));
-    parameter.add(std::make_unique<juce::AudioParameterFloat>("LowShelf Quality",
-                                                                "LowShelf Quality",
-                                                                juce::NormalisableRange<float>(0.1f, 3.5f, 0.01f, 1.0f),
-                                                                1.0f));
-    parameter.add(std::make_unique<juce::AudioParameterFloat>("LowShelf Gain",
-                                                                "LowShelf Gain",
-                                                                juce::NormalisableRange<float>(-15.0f, 15.0f, 0.1f, 1.0f),
-                                                                0.0f));
-    parameter.add(std::make_unique<juce::AudioParameterBool>("LowShelf Bypass",
-                                                                "LowShelf Bypass",
-                                                                true));
-    parameter.add(std::make_unique<juce::AudioParameterBool>("LowShelf to Bell",
-                                                                "Lowhself to Bell",
-                                                                false));
+    parameter.add(std::make_unique<juce::AudioParameterFloat>(juce::ParameterID("LowShelf Frequency", 1),
+                                                              "LowShelf Frequency",
+                                                              juce::NormalisableRange<float>(30.0f, 450.0f, 1.0f, 1.0f),
+                                                              60.f));
+    parameter.add(std::make_unique<juce::AudioParameterFloat>(juce::ParameterID("LowShelf Quality", 1),
+                                                              "LowShelf Quality",
+                                                              juce::NormalisableRange<float>(0.1f, 3.5f, 0.01f, 1.0f),
+                                                              1.0f));
+    parameter.add(std::make_unique<juce::AudioParameterFloat>(juce::ParameterID("LowShelf Gain", 1),
+                                                              "LowShelf Gain",
+                                                              juce::NormalisableRange<float>(-15.0f, 15.0f, 0.1f, 1.0f),
+                                                              0.0f));
+    parameter.add(std::make_unique<juce::AudioParameterBool>(juce::ParameterID("LowShelf Bypass", 1),
+                                                             "LowShelf Bypass",
+                                                             true));
+    parameter.add(std::make_unique<juce::AudioParameterBool>(juce::ParameterID("LowShelf to Bell", 1),
+                                                             "Lowhself to Bell",
+                                                             false));
 
     return parameter;
 }
